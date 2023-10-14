@@ -653,6 +653,14 @@ FUNTAB R_FunTab[] =
 {".External.graphics", do_Externalgr, 0, 1,	-1,	{PP_FOREIGN, PREC_FN,	0}},
 {".Call.graphics", do_dotcallgr, 0,	1,	-1,	{PP_FOREIGN, PREC_FN,	0}},
 
+/* Chef: Symbolic Execution support */
+
+//{"chef_start", do_chefStartSymbex, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },
+//{"chef_end", do_chefEndSymbex, 0, 1, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef_debug", do_chefDebugMessage, 0, 01, 1, {PP_FUNCALL, PREC_FN, 0} },
+//{"chef_int", do_chefSymbolicInt, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },
+//{"chef_c", do_chefSymbolicVector, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },
+
 /* .Internal */
 {"eapply",	do_eapply,	0,	10,	4,	{PP_FUNCALL, PREC_FN,	0}},
 {"lapply",	do_lapply,	0,	10,	2,	{PP_FUNCALL, PREC_FN,	0}},
