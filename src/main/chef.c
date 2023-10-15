@@ -16,7 +16,7 @@ void R_UpdateHighLevelInstruction(u_int32_t opcode) {}
 void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize) {}
 
 void R_SendDebugMessage(const char * message) {
-    printf("Will print the following message to S2E debug: %s\n", message);
+    s2e_message(message);
 }
 
 attribute_hidden SEXP do_chefDebugMessage(SEXP call, SEXP op, SEXP args, SEXP env) {
