@@ -84,24 +84,7 @@ hash_table_new(void)
 static int
 hash_void_ptr(void *ptr)
 {
-  int hash;
-  int i;
-
-  /* I took this hash function just off the top of my head, I have
-     no idea whether it is bad or very bad. */
-  hash = 0;
-  for (i = 0; i < (int)sizeof(ptr)*8 / TABLE_BITS; i++)
-    {
-/* R change: unsigned long may be shorter than ptr */
-#ifdef _WIN64
-      hash ^= (size_t)ptr >> i*8;
-#else
-      hash ^= (unsigned long)ptr >> i*8;
-#endif
-      hash += i * 17;
-      hash &= TABLE_MASK;
-    }
-  return hash;
+    return 0;
 }
 
 static void
