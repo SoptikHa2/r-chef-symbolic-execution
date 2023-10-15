@@ -2303,30 +2303,12 @@ attribute_hidden SEXP do_sample2(SEXP call, SEXP op, SEXP args, SEXP env)
 
 static int hash_identical(SEXP x, int K, int useCloEnv)
 {
-    /* using 31 seems to work reasonably */
-    if (K == 0 || K > 31) K = 31;
-
-    HashData d = { .K = K, .useUTF8 = FALSE, .useCache = TRUE };
-    d.useCloEnv = useCloEnv;
-    d.extptrAsRef = TRUE;
-    d.inHashtab = TRUE;
-
-    int val = (int) vhash_one(x, &d);
-    if (val == NA_INTEGER) val = 0;
-    if (val < 0) val = -val;
-    return val;
+    return 0;
 }
 
 static int hash_address(SEXP x, int K)
 {
-    if (K == 0 || K > 31) K = 31;
-
-    HashData d = { .K = K };
-
-    int val = (int) scatter(PTRHASH(x), &d);
-    if (val == NA_INTEGER) val = 0;
-    if (val < 0) val = -val;
-    return val;
+    return 0;
 }
 
 /* allow for compiling with NAMED */

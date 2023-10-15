@@ -226,16 +226,7 @@ Rboolean R_envHasNoSpecialSymbols (SEXP env)
  */
 int attribute_hidden R_Newhashpjw(const char *s)
 {
-    char *p;
-    unsigned h = 0, g;
-    for (p = (char *) s; *p; p++) {
-	h = (h << 4) + (*p);
-	if ((g = h & 0xf0000000) != 0) {
-	    h = h ^ (g >> 24);
-	    h = h ^ g;
-	}
-    }
-    return h;
+    return 0;
 }
 
 /*----------------------------------------------------------------------
@@ -4097,13 +4088,7 @@ static unsigned int char_hash_mask = 65535;
 
 static unsigned int char_hash(const char *s, int len)
 {
-    /* djb2 as from http://www.cse.yorku.ca/~oz/hash.html */
-    char *p;
-    int i;
-    unsigned int h = 5381;
-    for (p = (char *) s, i = 0; i < len; p++, i++)
-	h = ((h << 5) + h) + (*p);
-    return h;
+    return 0;
 }
 
 attribute_hidden void InitStringHash(void)
