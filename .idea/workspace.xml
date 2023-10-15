@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="r-chef-symbolic-execution" targetName="info" />
+      <config projectName="r-chef-symbolic-execution" targetName="distdir" />
+      <config projectName="r-chef-symbolic-execution" targetName="vignettes" />
+      <config projectName="r-chef-symbolic-execution" targetName="distcleancheck" />
+      <config projectName="r-chef-symbolic-execution" targetName="TAGS" />
+      <config projectName="r-chef-symbolic-execution" targetName="install-pdf" />
+      <config projectName="r-chef-symbolic-execution" targetName="install-tests" />
+      <config projectName="r-chef-symbolic-execution" targetName="docs" />
+      <config projectName="r-chef-symbolic-execution" targetName="distcheck" />
+      <config projectName="r-chef-symbolic-execution" targetName="install-info" />
+      <config projectName="r-chef-symbolic-execution" targetName="uninstall-info" />
+      <config projectName="r-chef-symbolic-execution" targetName="VERSION" />
+      <config projectName="r-chef-symbolic-execution" targetName="distcheck-win" />
+      <config projectName="r-chef-symbolic-execution" targetName="INSTALL" />
+      <config projectName="r-chef-symbolic-execution" targetName="pdf" />
+      <config projectName="r-chef-symbolic-execution" targetName="uninstall-tests" />
+      <config projectName="r-chef-symbolic-execution" targetName="check" />
+      <config projectName="r-chef-symbolic-execution" targetName="README" />
+      <config projectName="r-chef-symbolic-execution" targetName="Makeconf" />
+      <config projectName="r-chef-symbolic-execution" targetName="check-devel" />
+      <config projectName="r-chef-symbolic-execution" targetName="all" />
+      <config projectName="r-chef-symbolic-execution" targetName="ChangeLog" />
+      <config projectName="r-chef-symbolic-execution" targetName="svnonly" />
+      <config projectName="r-chef-symbolic-execution" targetName="javaconf" />
+      <config projectName="r-chef-symbolic-execution" targetName="uninstall" />
+      <config projectName="r-chef-symbolic-execution" targetName="check-all" />
+      <config projectName="r-chef-symbolic-execution" targetName="stamp-recommended" />
+      <config projectName="r-chef-symbolic-execution" targetName="recommended" />
+      <config projectName="r-chef-symbolic-execution" targetName="stamp-java" />
+      <config projectName="r-chef-symbolic-execution" targetName="check-recommended" />
+      <config projectName="r-chef-symbolic-execution" targetName="Makefile" />
+      <config projectName="r-chef-symbolic-execution" targetName="mostlyclean" />
+      <config projectName="r-chef-symbolic-execution" targetName="uninstall-libR" />
+      <config projectName="r-chef-symbolic-execution" targetName="distclean" />
+      <config projectName="r-chef-symbolic-execution" targetName="libtool" />
+      <config projectName="r-chef-symbolic-execution" targetName="reset-recommended" />
+      <config projectName="r-chef-symbolic-execution" targetName="distcheck-unix" />
+      <config projectName="r-chef-symbolic-execution" targetName="install-libR" />
+      <config projectName="r-chef-symbolic-execution" targetName="maintainer-clean" />
+      <config projectName="r-chef-symbolic-execution" targetName="dist-unix" />
+      <config projectName="r-chef-symbolic-execution" targetName="configure" />
+      <config projectName="r-chef-symbolic-execution" targetName="uninstall-pdf" />
+      <config projectName="r-chef-symbolic-execution" targetName="dist-win" />
+      <config projectName="r-chef-symbolic-execution" targetName="checkdistcomplete" />
+      <config projectName="r-chef-symbolic-execution" targetName="installdirs" />
+      <config projectName="r-chef-symbolic-execution" targetName="install-libR-exists" />
+      <config projectName="r-chef-symbolic-execution" targetName="install" />
+      <config projectName="r-chef-symbolic-execution" targetName="COPYING" />
+      <config projectName="r-chef-symbolic-execution" targetName="install-strip" />
+      <config projectName="r-chef-symbolic-execution" targetName="compact-pdf" />
+      <config projectName="r-chef-symbolic-execution" targetName="FORCE" />
+      <config projectName="r-chef-symbolic-execution" targetName="VERSION-NICK" />
+      <config projectName="r-chef-symbolic-execution" targetName="dist" />
+      <config projectName="r-chef-symbolic-execution" targetName="distuninstallcheck" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6ddddf96-98a1-4103-893c-1f442e7397fb" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/eval.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/eval.c" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="chef" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;SoptikHa2&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="56351a41-552a-47e8-a96b-d3930ca20ea2" />
+        <option name="url" value="https://github.com/SoptikHa2/r-chef-symbolic-execution.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MakefileLocalSettings">
+    <option name="availableProjects">
+      <map>
+        <entry>
+          <key>
+            <ExternalProjectPojo>
+              <option name="name" value="r-chef-symbolic-execution" />
+              <option name="path" value="$PROJECT_DIR$" />
+            </ExternalProjectPojo>
+          </key>
+          <value>
+            <list>
+              <ExternalProjectPojo>
+                <option name="name" value="r-chef-symbolic-execution" />
+                <option name="path" value="$PROJECT_DIR$" />
+              </ExternalProjectPojo>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$" value="RE_IMPORT" />
+      </map>
+    </option>
+  </component>
+  <component name="MakefilesProjectLoadingState">
+    <option name="doClean" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: -1
+}</component>
+  <component name="ProjectId" id="2Wkmv8XjenaEB10RBfNo0lQtmDo" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "chef",
+    "last_opened_file_path": "/home/s2e/interpreters/r-chef-symbolic-execution/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "MakefileSettings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RdControllerToolWindowsLayoutState" isNewUi="true">
+    <layout>
+      <window_info id="Space Code Reviews" />
+      <window_info id="Bookmarks" side_tool="true" />
+      <window_info id="Merge Requests" />
+      <window_info id="Commit_Guest" />
+      <window_info id="Pull Requests" weight="0.1472801" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1472801" />
+      <window_info id="Commit" order="1" weight="0.25" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="TypeScript" />
+      <window_info anchor="bottom" id="Build" weight="0.3300074" />
+      <window_info anchor="bottom" id="Python Packages" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Messages" weight="0.24041298" />
+      <window_info anchor="bottom" id="File Transfer" />
+      <window_info anchor="bottom" id="Run" weight="0.32989183" />
+      <window_info anchor="bottom" id="Vcpkg" />
+      <window_info anchor="bottom" id="Find" weight="0.32989183" />
+      <window_info anchor="bottom" id="clangd" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.32989183" />
+      <window_info anchor="bottom" id="Problems View" order="1" weight="0.3300074" />
+      <window_info anchor="bottom" id="Terminal" order="2" weight="0.24041298" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.24041298" />
+      <window_info anchor="bottom" id="Services" order="4" weight="0.3300074" />
+      <window_info anchor="right" id="make" side_tool="true" />
+      <window_info anchor="right" id="documentation.v2" side_tool="true" />
+      <window_info anchor="right" id="Meet New UI" side_tool="true" />
+      <window_info anchor="right" id="Notifications" order="0" weight="0.33015046" />
+      <window_info anchor="right" id="Database" order="1" weight="0.25" />
+    </layout>
+  </component>
+  <component name="RunManager" selected="Makefile Application.R">
+    <configuration name="COPYING" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="COPYING" CONFIG_NAME="COPYING" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ChangeLog" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="ChangeLog" CONFIG_NAME="ChangeLog" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FORCE" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="FORCE" CONFIG_NAME="FORCE" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="INSTALL" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="INSTALL" CONFIG_NAME="INSTALL" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Makeconf" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="Makeconf" CONFIG_NAME="Makeconf" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Makefile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="Makefile" CONFIG_NAME="Makefile" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="R" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="R-Chef" CONFIG_NAME="R-Chef" version="1" RUN_PATH="$PROJECT_DIR$/build/bin/exec/R">
+      <envs>
+        <env name="LD_LIBRARY_PATH" value="$PROJECT_DIR$/build/lib:/usr/local/lib" />
+        <env name="R_HOME" value="$PROJECT_DIR$/build" />
+      </envs>
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="README" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="README" CONFIG_NAME="README" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TAGS" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="TAGS" CONFIG_NAME="TAGS" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VERSION-NICK" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="VERSION-NICK" CONFIG_NAME="VERSION-NICK" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VERSION" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="VERSION" CONFIG_NAME="VERSION" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="all" CONFIG_NAME="all" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="check-all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="check-all" CONFIG_NAME="check-all" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="check-devel" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="check-devel" CONFIG_NAME="check-devel" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="check-recommended" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="check-recommended" CONFIG_NAME="check-recommended" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="check" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="check" CONFIG_NAME="check" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="checkdistcomplete" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="checkdistcomplete" CONFIG_NAME="checkdistcomplete" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="compact-pdf" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="compact-pdf" CONFIG_NAME="compact-pdf" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="configure" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="configure" CONFIG_NAME="configure" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dist-unix" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="dist-unix" CONFIG_NAME="dist-unix" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dist-win" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="dist-win" CONFIG_NAME="dist-win" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dist" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="dist" CONFIG_NAME="dist" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distcheck-unix" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distcheck-unix" CONFIG_NAME="distcheck-unix" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distcheck-win" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distcheck-win" CONFIG_NAME="distcheck-win" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distcheck" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distcheck" CONFIG_NAME="distcheck" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distclean" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distclean" CONFIG_NAME="distclean" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distcleancheck" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distcleancheck" CONFIG_NAME="distcleancheck" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distdir" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distdir" CONFIG_NAME="distdir" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="distuninstallcheck" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="distuninstallcheck" CONFIG_NAME="distuninstallcheck" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="docs" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="docs" CONFIG_NAME="docs" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="info" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="info" CONFIG_NAME="info" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install-info" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install-info" CONFIG_NAME="install-info" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install-libR-exists" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install-libR-exists" CONFIG_NAME="install-libR-exists" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install-libR" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install-libR" CONFIG_NAME="install-libR" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install-pdf" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install-pdf" CONFIG_NAME="install-pdf" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install-strip" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install-strip" CONFIG_NAME="install-strip" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install-tests" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install-tests" CONFIG_NAME="install-tests" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="install" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="install" CONFIG_NAME="install" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="installdirs" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="installdirs" CONFIG_NAME="installdirs" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="javaconf" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="javaconf" CONFIG_NAME="javaconf" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="libtool" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="libtool" CONFIG_NAME="libtool" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="maintainer-clean" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="maintainer-clean" CONFIG_NAME="maintainer-clean" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mostlyclean" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="mostlyclean" CONFIG_NAME="mostlyclean" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pdf" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="pdf" CONFIG_NAME="pdf" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="recommended" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="recommended" CONFIG_NAME="recommended" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="reset-recommended" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="reset-recommended" CONFIG_NAME="reset-recommended" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="stamp-java" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="stamp-java" CONFIG_NAME="stamp-java" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="stamp-recommended" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="stamp-recommended" CONFIG_NAME="stamp-recommended" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="svnonly" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="svnonly" CONFIG_NAME="svnonly" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall-info" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="uninstall-info" CONFIG_NAME="uninstall-info" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall-libR" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="uninstall-libR" CONFIG_NAME="uninstall-libR" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall-pdf" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="uninstall-pdf" CONFIG_NAME="uninstall-pdf" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall-tests" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="uninstall-tests" CONFIG_NAME="uninstall-tests" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="uninstall" CONFIG_NAME="uninstall" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="vignettes" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="r-chef-symbolic-execution" TARGET_NAME="vignettes" CONFIG_NAME="vignettes" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RCodeAnal" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" EXPLICIT_BUILD_TARGET_NAME="all">
+      <envs>
+        <env name="LD_LIBRARY_PATH" value="$PROJECT_DIR$/build/lib:/usr/local/lib" />
+        <env name="R_HOME" value="$PROJECT_DIR$/build" />
+      </envs>
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.RCodeAnal" />
+      <item itemvalue="Makefile Application.R" />
+      <item itemvalue="Makefile Application.all" />
+      <item itemvalue="Makefile Application.ChangeLog" />
+      <item itemvalue="Makefile Application.check" />
+      <item itemvalue="Makefile Application.check-all" />
+      <item itemvalue="Makefile Application.check-devel" />
+      <item itemvalue="Makefile Application.check-recommended" />
+      <item itemvalue="Makefile Application.checkdistcomplete" />
+      <item itemvalue="Makefile Application.compact-pdf" />
+      <item itemvalue="Makefile Application.configure" />
+      <item itemvalue="Makefile Application.COPYING" />
+      <item itemvalue="Makefile Application.dist" />
+      <item itemvalue="Makefile Application.dist-unix" />
+      <item itemvalue="Makefile Application.dist-win" />
+      <item itemvalue="Makefile Application.distcheck" />
+      <item itemvalue="Makefile Application.distcheck-unix" />
+      <item itemvalue="Makefile Application.distcheck-win" />
+      <item itemvalue="Makefile Application.distclean" />
+      <item itemvalue="Makefile Application.distcleancheck" />
+      <item itemvalue="Makefile Application.distdir" />
+      <item itemvalue="Makefile Application.distuninstallcheck" />
+      <item itemvalue="Makefile Application.docs" />
+      <item itemvalue="Makefile Application.FORCE" />
+      <item itemvalue="Makefile Application.info" />
+      <item itemvalue="Makefile Application.INSTALL" />
+      <item itemvalue="Makefile Application.install" />
+      <item itemvalue="Makefile Application.install-info" />
+      <item itemvalue="Makefile Application.install-libR" />
+      <item itemvalue="Makefile Application.install-libR-exists" />
+      <item itemvalue="Makefile Application.install-pdf" />
+      <item itemvalue="Makefile Application.install-strip" />
+      <item itemvalue="Makefile Application.install-tests" />
+      <item itemvalue="Makefile Application.installdirs" />
+      <item itemvalue="Makefile Application.javaconf" />
+      <item itemvalue="Makefile Application.libtool" />
+      <item itemvalue="Makefile Application.maintainer-clean" />
+      <item itemvalue="Makefile Application.Makeconf" />
+      <item itemvalue="Makefile Application.Makefile" />
+      <item itemvalue="Makefile Application.mostlyclean" />
+      <item itemvalue="Makefile Application.pdf" />
+      <item itemvalue="Makefile Application.README" />
+      <item itemvalue="Makefile Application.recommended" />
+      <item itemvalue="Makefile Application.reset-recommended" />
+      <item itemvalue="Makefile Application.stamp-java" />
+      <item itemvalue="Makefile Application.stamp-recommended" />
+      <item itemvalue="Makefile Application.svnonly" />
+      <item itemvalue="Makefile Application.TAGS" />
+      <item itemvalue="Makefile Application.uninstall" />
+      <item itemvalue="Makefile Application.uninstall-info" />
+      <item itemvalue="Makefile Application.uninstall-libR" />
+      <item itemvalue="Makefile Application.uninstall-pdf" />
+      <item itemvalue="Makefile Application.uninstall-tests" />
+      <item itemvalue="Makefile Application.VERSION" />
+      <item itemvalue="Makefile Application.VERSION-NICK" />
+      <item itemvalue="Makefile Application.vignettes" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6ddddf96-98a1-4103-893c-1f442e7397fb" name="Changes" comment="" />
+      <created>1697285181531</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697285181531</updated>
+      <workItem from="1697285183791" duration="10323000" />
+      <workItem from="1697296861495" duration="1666000" />
+      <workItem from="1697298544008" duration="24995000" />
+      <workItem from="1697388476027" duration="1269000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

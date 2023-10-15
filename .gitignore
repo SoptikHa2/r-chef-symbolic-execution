@@ -1,4 +1,4 @@
 build/
-.idea/
 *.tar.gz
 *.tgz
+.idea/

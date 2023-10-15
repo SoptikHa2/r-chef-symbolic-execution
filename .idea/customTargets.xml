@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="fefdbc01-da77-4f8a-a064-62c533f715ae" name="R-Chef" defaultType="MAKE">
+      <configuration id="9d6af676-b673-4a75-b571-d6499dc3f037" name="R-Chef">
+        <build type="MAKE">
+          <make targetName="R" />
+        </build>
+        <clean type="MAKE">
+          <make targetName="clean" />
+        </clean>
+      </configuration>
+    </target>
+  </component>
+</project>
