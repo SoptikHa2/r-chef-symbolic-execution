@@ -551,5 +551,8 @@ SEXP do_sorted_fpass(SEXP, SEXP, SEXP, SEXP);
 /* CHEF */
 
 SEXP do_chefDebugMessage(SEXP, SEXP, SEXP, SEXP);
+SEXP do_chefStartSymbex(SEXP, SEXP, SEXP, SEXP);
+SEXP do_chefEndSymbex(SEXP, SEXP, SEXP, SEXP);
+SEXP do_chefSymbolicInt(SEXP, SEXP, SEXP, SEXP);
 
 #endif /* not R_INTERNAL_H */
