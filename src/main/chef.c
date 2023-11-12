@@ -7,34 +7,33 @@
 #include <Internal.h>
 #include <Chef.h>
 #include "s2e.h"
+#include "Chef.h"
 
 void R_StartSymbolicExecution() {
-    struct S2E_CONCOLICSESSION_COMMAND cmd;
-    cmd.Command = START_CONCOLIC_SESSION;
-    cmd.max_time = 300;
+    struct S2E_CHEF_COMMAND cmd;
+    cmd.Command = START_CHEF;
 
-    s2e_invoke_plugin("ConcolicSession", &cmd, sizeof(cmd));
+    s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
 void R_EndSymbolicExecution(int errorHappened) {
-    struct S2E_CONCOLICSESSION_COMMAND cmd;
-    cmd.Command = END_CONCOLIC_SESSION;
-    cmd.is_error_path = errorHappened;
+    struct S2E_CHEF_COMMAND cmd;
+    cmd.Command = END_CHEF;
+    cmd.data.end_chef.error_happened = errorHappened;
 
-    s2e_invoke_plugin("ConcolicSession", &cmd, sizeof(cmd));
+    s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
 void R_UpdateHighLevelInstruction(u_int32_t opcode, uint32_t line, const char * filename, const char * funcname) {
-    struct S2E_INTERPRETERMONITOR_COMMAND cmd;
-    cmd.op_code = opcode;
-    strncpy((char *)cmd.filename, filename ? filename : "<no support>", 60);
-    strncpy((char *)cmd.function, funcname ? funcname : "<no support>", 60);
-    cmd.line = line;
-    cmd.frame_count = 0;
-    cmd.frames[0] = 0;
-    cmd.frames[1] = 0;
+    struct S2E_CHEF_COMMAND cmd;
+    cmd.Command = TRACE_UPDATE;
+    cmd.data.trace.op_code = opcode;
+    strncpy((char *)cmd.data.trace.filename, filename ? filename : "<no support>", 60);
+    strncpy((char *)cmd.data.trace.function, funcname ? funcname : "<no support>", 60);
+    cmd.data.trace.line = line;
+    cmd.data.trace.pc = 0;
 
-    s2e_invoke_plugin("InterpreterMonitor", &cmd, sizeof(cmd));
+    s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
 void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize) {
