@@ -32,6 +32,7 @@
 #include <Rmath.h> /* for imax2 */
 #include <R_ext/Print.h>
 #include <stdarg.h>
+#include <Chef.h>
 
 /* eval() sets R_Visible = TRUE. Thas may not be wanted when eval() is
    used in C code. This is a version that saves/restores R_Visible.
@@ -2723,6 +2724,10 @@ NORET void R_signalErrorConditionEx(SEXP cond, SEXP call, int exitOnly)
 attribute_hidden /* for now */
 NORET void R_signalErrorCondition(SEXP cond, SEXP call)
 {
+    if (R_SymbexEnabled() == TRUE) {
+        R_EndSymbolicExecution(TRUE);
+    }
+
     R_signalErrorConditionEx(cond, call, FALSE);
 }
 
