@@ -25,6 +25,7 @@
 
 #define R_USE_SIGNALS 1
 #include <Defn.h>
+#include <Chef.h>
 #include <Internal.h>
 #include <Rinterface.h>
 #include <Fileio.h>
@@ -1042,9 +1043,37 @@ attribute_hidden void R_BCProtReset(R_bcstack_t *ptop)
 
 /* Return value of "e" evaluated in "rho". */
 
+const char * getFunNameFromLANGSXP(SEXP expr) {
+    if (TYPEOF(expr) != LANGSXP) return NULL;
+
+    SEXP symbol = CAR(expr);
+    if (TYPEOF(symbol) != SYMSXP) return NULL;
+
+    SEXP name = PRINTNAME(symbol);
+    if (TYPEOF(name) != CHARSXP || name == NA_STRING) return NULL;
+
+    return CHAR(name);
+}
+
 /* some places, e.g. deparse2buff, call this with a promise and rho = NULL */
 SEXP eval(SEXP e, SEXP rho)
 {
+    if (R_SymbexEnabled()) {
+        const char * funToBeCalled = getFunNameFromLANGSXP(e);
+
+        // get line number from current srcref
+        int line = 0;
+        if (R_Srcref != R_NilValue) {
+            line = INTEGER(R_Srcref)[2];
+        }
+
+        // get function currently being called
+        const char * topLevelCall = R_GlobalContext ? getFunNameFromLANGSXP(R_GlobalContext->call) : NULL;
+
+        R_UpdateHighLevelInstruction((u_int32_t)(size_t)e, line, NULL, topLevelCall ? topLevelCall : "unknown (top level?)");
+    }
+
+
     SEXP op, tmp;
     static int evalcount = 0;
 
@@ -1314,15 +1343,7 @@ typedef unsigned long R_exprhash_t;
 
 static R_exprhash_t hash(unsigned char *str, int n, R_exprhash_t hash)
 {
-    // djb2 from http://www.cse.yorku.ca/~oz/hash.html
-    // (modified for n-byte lengths)
-
-    int i;
-
-    for(i = 0; i < n; i++)
-        hash = ((hash << 5) + hash) + str[i]; /* hash * 33 + c */
-
-    return hash;
+    return 0;
 }
 
 #define HASH(x, h) hash((unsigned char *) &x, sizeof(x), h)
@@ -1379,16 +1400,7 @@ static R_exprhash_t hashexpr1(SEXP e, R_exprhash_t h)
 static R_INLINE SEXP getSrcref(SEXP srcrefs, int ind);
 static R_exprhash_t hashsrcref(SEXP e, R_exprhash_t h)
 {
-    if (TYPEOF(e) == INTSXP && LENGTH(e) >= 6) {
-	for(int i = 0; i < 6; i++) {
-	    int ival = INTEGER(e)[i];
-	    h = HASH(ival, h);
-	}
-	/* FIXME: update this when deep-comparison of srcref is available */
-	SEXP srcfile = getAttrib(e, R_SrcfileSymbol);
-	h = HASH(srcfile, h);
-    }
-    return h;
+    return 0;
 }
 #undef HASH
 
