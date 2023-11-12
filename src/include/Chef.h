@@ -39,10 +39,12 @@ void R_StartSymbolicExecution();
 
 void R_EndSymbolicExecution(int errorHappened);
 
-void R_UpdateHighLevelInstruction(u_int32_t opcode);
+void R_UpdateHighLevelInstruction(u_int32_t opcode, uint32_t line, const char * filename, const char * funcname);
 
 void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize);
 
 void R_SendDebugMessage(const char * message);
+
+Rboolean R_SymbexEnabled();
 
 #endif

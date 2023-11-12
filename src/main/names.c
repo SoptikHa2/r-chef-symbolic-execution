@@ -655,10 +655,10 @@ FUNTAB R_FunTab[] =
 
 /* Chef: Symbolic Execution support */
 
-{"chef_start", do_chefStartSymbex, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_end", do_chefEndSymbex, 0, 1, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_debug", do_chefDebugMessage, 0, 01, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_int", do_chefSymbolicInt, 0, 01, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef_start", do_chefStartSymbex, 0, 100, 0, {PP_FUNCALL, PREC_FN, 0} },
+{"chef_end", do_chefEndSymbex, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef_debug", do_chefDebugMessage, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef_int", do_chefSymbolicInt, 0, 001, 1, {PP_FUNCALL, PREC_FN, 0} },
 //{"chef_c", do_chefSymbolicVector, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },
 
 /* .Internal */

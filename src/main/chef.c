@@ -1,3 +1,4 @@
+#include "R_ext/Boolean.h"
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
@@ -23,8 +24,17 @@ void R_EndSymbolicExecution(int errorHappened) {
     s2e_invoke_plugin("ConcolicSession", &cmd, sizeof(cmd));
 }
 
-void R_UpdateHighLevelInstruction(u_int32_t opcode) {
-    R_SendDebugMessage("Called UpdateHighLevelInstruction, but not implemented yet.");
+void R_UpdateHighLevelInstruction(u_int32_t opcode, uint32_t line, const char * filename, const char * funcname) {
+    struct S2E_INTERPRETERMONITOR_COMMAND cmd;
+    cmd.op_code = opcode;
+    strncpy((char *)cmd.filename, filename ? filename : "<no support>", 60);
+    strncpy((char *)cmd.function, funcname ? funcname : "<no support>", 60);
+    cmd.line = line;
+    cmd.frame_count = 0;
+    cmd.frames[0] = 0;
+    cmd.frames[1] = 0;
+
+    s2e_invoke_plugin("InterpreterMonitor", &cmd, sizeof(cmd));
 }
 
 void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize) {
@@ -35,11 +45,18 @@ void R_SendDebugMessage(const char * message) {
     s2e_message(message);
 }
 
-
+Rboolean R_SymbexEnabled() {
+    const char * symbex = getenv("R_SYMBEX");
+    if (symbex && strcmp(symbex, "1") == 0) return TRUE;
+    return FALSE;
+}
 
 attribute_hidden SEXP do_chefDebugMessage(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP debug_msg = CAR(args);
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
 
     if (!isString(debug_msg) || LENGTH(debug_msg) != 1)
         error(_("character argument expected"));
@@ -52,6 +69,9 @@ attribute_hidden SEXP do_chefDebugMessage(SEXP call, SEXP op, SEXP args, SEXP en
 attribute_hidden SEXP do_chefStartSymbex(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
 
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
     R_StartSymbolicExecution();
 
     return R_NilValue;
@@ -60,6 +80,9 @@ attribute_hidden SEXP do_chefStartSymbex(SEXP call, SEXP op, SEXP args, SEXP env
 attribute_hidden SEXP do_chefEndSymbex(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP error_happened = CAR(args);
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
 
     if (!IS_SCALAR(error_happened, LGLSXP) || SCALAR_LVAL(error_happened) == NA_LOGICAL)
         error(_("expected one true/false value"));
@@ -72,6 +95,9 @@ attribute_hidden SEXP do_chefEndSymbex(SEXP call, SEXP op, SEXP args, SEXP env) 
 attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP variable_name = CAR(args);
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
 
     if (!isString(variable_name) || LENGTH(variable_name) != 1)
         error(_("character argument expected"));
