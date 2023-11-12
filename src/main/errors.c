@@ -904,6 +904,8 @@ NORET static void errorcall_dflt(SEXP call, const char *format,...)
 
 NORET void errorcall(SEXP call, const char *format,...)
 {
+    if (R_SymbexEnabled()) R_EndSymbolicExecution(TRUE);
+
     va_list(ap);
 
     if (call == R_CurrentExpression)

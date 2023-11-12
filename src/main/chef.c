@@ -101,7 +101,7 @@ attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env
     if (!isString(variable_name) || LENGTH(variable_name) != 1)
         error(_("character argument expected"));
 
-    int symbolicValue;
+    int32_t symbolicValue;
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
 
     return ScalarInteger(symbolicValue);
