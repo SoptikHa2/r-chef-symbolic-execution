@@ -2625,7 +2625,6 @@ static SEXP replaceCall(SEXP fun, SEXP val, SEXP args, SEXP rhs)
     return tmp;
 }
 
-
 /* rho is only needed for _R_CHECK_LENGTH_1_CONDITION_=package:name and for
      detecting the current package in related diagnostic messages; it should
      be removed when length >1 condition is turned into an error
@@ -2671,6 +2670,10 @@ static R_INLINE Rboolean asLogicalNoNA(SEXP s, SEXP call, SEXP rho)
 	errorcall(call, msg);
     }
     return cond;
+}
+
+Rboolean R_AsLogicalNoNA(SEXP s, SEXP call, SEXP rho) {
+    return asLogicalNoNA(s, call, rho);
 }
 
 

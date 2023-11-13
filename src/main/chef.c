@@ -44,6 +44,12 @@ void R_SendDebugMessage(const char * message) {
     s2e_message(message);
 }
 
+void R_Assume(int assumption) {
+    if(!assumption) {
+        s2e_kill_state(0, "R_Assume creating a constraint");
+    }
+}
+
 Rboolean R_SymbexEnabled() {
     const char * symbex = getenv("R_SYMBEX");
     if (symbex && strcmp(symbex, "1") == 0) return TRUE;
@@ -105,4 +111,39 @@ attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
 
     return ScalarInteger(symbolicValue);
+}
+
+attribute_hidden SEXP do_chefAssume(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP assumption;
+    PROTECT(assumption = eval(CAR(args), env));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+
+    R_Assume(R_AsLogicalNoNA(assumption, call, env));
+
+    UNPROTECT(1);
+
+    return R_NilValue;
+}
+
+attribute_hidden SEXP do_chefAssert(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP assertion;
+    PROTECT(assertion = eval(CAR(args), env));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+
+    if (!R_AsLogicalNoNA(assertion, call, env)) {
+        R_SendDebugMessage("Assertion failed");
+        R_EndSymbolicExecution(1);
+    }
+
+    UNPROTECT(1);
+
+    return R_NilValue;
 }

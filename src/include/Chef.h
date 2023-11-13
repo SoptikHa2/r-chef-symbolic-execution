@@ -37,6 +37,8 @@ void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t buff
 
 void R_SendDebugMessage(const char * message);
 
+void R_Assume(int assumption);
+
 Rboolean R_SymbexEnabled();
 
 #endif
