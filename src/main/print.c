@@ -390,6 +390,7 @@ static void save_tagbuf(char *save, size_t n)
     
 static void PrintObject(SEXP s, R_PrintData *data)
 {
+	return;
     /* Save the tagbuffer to restore indexing tags after evaluation
        because calling into base::print() resets the buffer */
     char save[sizeof tagbuf];
@@ -405,6 +406,7 @@ static void PrintObject(SEXP s, R_PrintData *data)
 }
 
 static void PrintDispatch(SEXP s, R_PrintData *data) {
+	return;
     if (isObject(s))
 	PrintObject(s, data);
     else
@@ -413,6 +415,7 @@ static void PrintDispatch(SEXP s, R_PrintData *data) {
 
 static void PrintGenericVector(SEXP s, R_PrintData *data)
 {
+	return;
     R_xlen_t ns = XLENGTH(s), i;
     SEXP names, dims = getAttrib(s, R_DimSymbol);
     if(dims != R_NilValue && length(dims) > 1) {
@@ -1068,6 +1071,7 @@ static void printAttributes(SEXP s, R_PrintData *data, Rboolean useSlots)
 
 attribute_hidden void PrintValueEnv(SEXP s, SEXP env)
 {
+    return;
     PrintDefaults();
     tagbuf[0] = '\0';
     PROTECT(s);

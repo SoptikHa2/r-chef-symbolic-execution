@@ -1058,6 +1058,7 @@ const char * getFunNameFromLANGSXP(SEXP expr) {
 /* some places, e.g. deparse2buff, call this with a promise and rho = NULL */
 SEXP eval(SEXP e, SEXP rho)
 {
+    chef_log();
     if (R_SymbexEnabled()) {
         const char * funToBeCalled = getFunNameFromLANGSXP(e);
 
@@ -1129,7 +1130,7 @@ SEXP eval(SEXP e, SEXP rho)
 	      R_typeToChar(rho));
 
     /* Save the current srcref context. */
-
+    chef_log();
     SEXP srcrefsave = R_Srcref;
 
     /* The use of depthsave below is necessary because of the
@@ -1154,7 +1155,7 @@ SEXP eval(SEXP e, SEXP rho)
 	R_signalErrorCondition(cond, R_NilValue);
     }
     R_CheckStack();
-
+    chef_log();
     tmp = R_NilValue;		/* -Wall */
 #ifdef Win32
     /* This is an inlined version of Rwin_fpreset (src/gnuwin/extra.c)
@@ -1172,9 +1173,11 @@ SEXP eval(SEXP e, SEXP rho)
 
     switch (TYPEOF(e)) {
     case BCODESXP:
+        chef_log();
 	tmp = bcEval(e, rho, TRUE);
 	    break;
     case SYMSXP:
+        chef_log();
 	if (e == R_DotsSymbol)
 	    error(_("'...' used in an incorrect context"));
 	if( DDVAL(e) )
@@ -1187,6 +1190,7 @@ SEXP eval(SEXP e, SEXP rho)
 			  EncodeChar(PRINTNAME(e)));
 	/* if ..d is missing then ddfindVar will signal */
 	else if (tmp == R_MissingArg && !DDVAL(e) ) {
+        chef_log();
 	    const char *n = CHAR(PRINTNAME(e));
 	    if(*n) errorcall(getLexicalCall(rho),
 			     _("argument \"%s\" is missing, with no default"),
@@ -1195,6 +1199,7 @@ SEXP eval(SEXP e, SEXP rho)
 			   _("argument is missing, with no default"));
 	}
 	else if (TYPEOF(tmp) == PROMSXP) {
+        chef_log();
 	    if (PRVALUE(tmp) == R_UnboundValue) {
 		/* not sure the PROTECT is needed here but keep it to
 		   be on the safe side. */
@@ -1208,6 +1213,7 @@ SEXP eval(SEXP e, SEXP rho)
 	else ENSURE_NAMED(tmp); /* needed for .Last.value - LT */
 	break;
     case PROMSXP:
+        chef_log();
 	if (PRVALUE(e) == R_UnboundValue)
 	    /* We could just unconditionally use the return value from
 	       forcePromise; the test avoids the function call if the
@@ -1229,7 +1235,9 @@ SEXP eval(SEXP e, SEXP rho)
 	   end up getting duplicated if NAMED > 1.) LT */
 	break;
     case LANGSXP:
+        chef_log();
 	if (TYPEOF(CAR(e)) == SYMSXP) {
+        chef_log();
 	    /* This will throw an error if the function is not found */
 	    SEXP ecall = e;
 
@@ -1243,10 +1251,12 @@ SEXP eval(SEXP e, SEXP rho)
 	    PROTECT(op = eval(CAR(e), rho));
 
 	if(RTRACE(op) && R_current_trace_state()) {
+        chef_log();
 	    Rprintf("trace: ");
 	    PrintValue(e);
 	}
 	if (TYPEOF(op) == SPECIALSXP) {
+        chef_log();
 	    int save = R_PPStackTop, flag = PRIMPRINT(op);
 	    const void *vmax = vmaxget();
 	    PROTECT(e);
@@ -1267,24 +1277,31 @@ SEXP eval(SEXP e, SEXP rho)
 	    vmaxset(vmax);
 	}
 	else if (TYPEOF(op) == BUILTINSXP) {
+        chef_log();
 	    int save = R_PPStackTop, flag = PRIMPRINT(op);
 	    const void *vmax = vmaxget();
 	    RCNTXT cntxt;
 	    PROTECT(tmp = evalList(CDR(e), rho, e, 0));
+        chef_log();
 	    if (flag < 2) R_Visible = flag != 1;
 	    /* We used to insert a context only if profiling,
 	       but helps for tracebacks on .C etc. */
 	    if (R_Profiling || (PPINFO(op).kind == PP_FOREIGN)) {
 		SEXP oldref = R_Srcref;
+        chef_log();
 		begincontext(&cntxt, CTXT_BUILTIN, e,
 			     R_BaseEnv, R_BaseEnv, R_NilValue, R_NilValue);
+        chef_log();
 		R_Srcref = NULL;
 		tmp = PRIMFUN(op) (e, op, tmp, rho);
 		R_Srcref = oldref;
+        chef_log();
 		endcontext(&cntxt);
 	    } else {
+        chef_log();
 		tmp = PRIMFUN(op) (e, op, tmp, rho);
 	    }
+        chef_log();
 #ifdef CHECK_VISIBILITY
 	    if(flag < 2 && R_Visible == flag) {
 		char *nm = PRIMNAME(op);
@@ -1297,6 +1314,7 @@ SEXP eval(SEXP e, SEXP rho)
 	    vmaxset(vmax);
 	}
 	else if (TYPEOF(op) == CLOSXP) {
+        chef_log();
 	    SEXP pargs = promiseArgs(CDR(e), rho);
 	    PROTECT(pargs);
 	    tmp = applyClosure(e, op, pargs, rho, R_NilValue, TRUE);
@@ -1314,6 +1332,7 @@ SEXP eval(SEXP e, SEXP rho)
     R_EvalDepth = depthsave;
     R_Srcref = srcrefsave;
     R_BCIntActive = bcintactivesave;
+    chef_log();
     return (tmp);
 }
 
@@ -3607,6 +3626,7 @@ attribute_hidden SEXP do_set(SEXP call, SEXP op, SEXP args, SEXP rho)
  */
 attribute_hidden SEXP evalList(SEXP el, SEXP rho, SEXP call, int n)
 {
+    chef_log();
     SEXP head, tail, ev, h, val;
 
     head = R_NilValue;
@@ -3616,6 +3636,7 @@ attribute_hidden SEXP evalList(SEXP el, SEXP rho, SEXP call, int n)
 	n++;
 
 	if (CAR(el) == R_DotsSymbol) {
+        chef_log();
 	    /* If we have a ... symbol, we look to see what it is bound to.
 	     * If its binding is Null (i.e. zero length)
 	     *	we just ignore it and return the cdr with all its expressions evaluated;
@@ -3641,11 +3662,13 @@ attribute_hidden SEXP evalList(SEXP el, SEXP rho, SEXP call, int n)
 		    tail = ev;
 		    h = CDR(h);
 		}
+        chef_log();
 	    }
 	    else if (h != R_MissingArg)
 		error(_("'...' used in an incorrect context"));
 	    UNPROTECT(1); /* h */
 	} else if (CAR(el) == R_MissingArg) {
+        chef_log();
 	    /* It was an empty element: most likely get here from evalArgs
 	       which may have been called on part of the args. */
 	    errorcall(call, _("argument %d is empty"), n);
@@ -3666,7 +3689,9 @@ attribute_hidden SEXP evalList(SEXP el, SEXP rho, SEXP call, int n)
 	                  EncodeChar(PRINTNAME(CAR(el))));
 #endif
 	} else {
+        chef_log();
 	    val = eval(CAR(el), rho);
+        chef_log();
 	    INCREMENT_LINKS(val);
 	    ev = CONS_NR(val, R_NilValue);
 	    if (head == R_NilValue)
@@ -3679,12 +3704,14 @@ attribute_hidden SEXP evalList(SEXP el, SEXP rho, SEXP call, int n)
 	el = CDR(el);
     }
 
+    chef_log();
     for(el = head; el != R_NilValue; el = CDR(el))
 	DECREMENT_LINKS(CAR(el));
 
     if (head != R_NilValue)
 	UNPROTECT(1);
 
+    chef_log();
     return head;
 
 } /* evalList() */

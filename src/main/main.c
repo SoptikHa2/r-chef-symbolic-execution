@@ -38,6 +38,7 @@
 #include "Fileio.h"
 #include "Parse.h"
 #include "Startup.h"
+#include "Chef.h"
 
 #include <locale.h>
 #include <R_ext/Print.h>
@@ -230,6 +231,7 @@ Rf_ReplIteration(SEXP rho, int savestack, int browselevel, R_ReplState *state)
     switch(state->status) {
 
     case PARSE_NULL:
+        chef_log();
 
 	/* The intention here is to break on CR but not on other
 	   null statements: see PR#9063 */
@@ -240,6 +242,7 @@ Rf_ReplIteration(SEXP rho, int savestack, int browselevel, R_ReplState *state)
 	return 1;
 
     case PARSE_OK:
+        chef_log();
 
 	R_IoBufferReadReset(&R_ConsoleIob);
 	R_CurrentExpr = R_Parse1Buffer(&R_ConsoleIob, 1, &state->status);
@@ -259,16 +262,21 @@ Rf_ReplIteration(SEXP rho, int savestack, int browselevel, R_ReplState *state)
 	resetTimeLimits();
 	PROTECT(thisExpr = R_CurrentExpr);
 	R_Busy(1);
+    chef_log();
 	PROTECT(value = eval(thisExpr, rho));
+    chef_log();
 	SET_SYMVALUE(R_LastvalueSymbol, value);
 	if (NO_REFERENCES(value))
 	    INCREMENT_REFCNT(value);
 	wasDisplayed = R_Visible;
+    chef_log();
 	if (R_Visible)
 	    PrintValueEnv(value, rho);
 	if (R_CollectWarnings)
 	    PrintWarnings();
+    chef_log();
 	Rf_callToplevelHandlers(thisExpr, value, TRUE, wasDisplayed);
+    chef_log();
 	R_CurrentExpr = value; /* Necessary? Doubt it. */
 	UNPROTECT(2); /* thisExpr, value */
 	if (R_BrowserLastCommand == 'S') R_BrowserLastCommand = 's';
