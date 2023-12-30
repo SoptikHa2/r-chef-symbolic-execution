@@ -659,6 +659,7 @@ FUNTAB R_FunTab[] =
 {"chef_end", do_chefEndSymbex, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_debug", do_chefDebugMessage, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_int", do_chefSymbolicInt, 0, 001, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef_string", do_chefSymbolicString, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_assume", do_chefAssume, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_assert", do_chefAssert, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
 //{"chef_c", do_chefSymbolicVector, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },

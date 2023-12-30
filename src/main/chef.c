@@ -3,6 +3,7 @@
 # include <config.h>
 #endif
 
+#include <math.h>
 #include <Defn.h>
 #include <Internal.h>
 #include <Chef.h>
@@ -111,6 +112,33 @@ attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
 
     return ScalarInteger(symbolicValue);
+}
+
+attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength = lround(Rf_asReal(string_length)) + 1;
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected positive value"));
+
+    char * buf = malloc(bufferLength);
+
+    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&buf, bufferLength-1);
+    buf[bufferLength-1] = 0;
+
+    return mkString(buf);
 }
 
 attribute_hidden SEXP do_chefAssume(SEXP call, SEXP op, SEXP args, SEXP env) {
