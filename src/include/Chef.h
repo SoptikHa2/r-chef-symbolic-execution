@@ -3,6 +3,10 @@
 
 #include "Defn.h"
 
+#ifndef chef_log
+#define chef_log() do { if (R_SymbexEnabled()) { char buffer[128]; sprintf(buffer, "LOG: %s : %d\n", __FILE__, __LINE__); R_SendDebugMessage(buffer); } } while(0)
+#endif
+
 enum S2E_CHEF_COMMANDS {
     START_CHEF,
     END_CHEF,

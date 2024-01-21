@@ -114,7 +114,7 @@ attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env
     return ScalarInteger(symbolicValue);
 }
 
-attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
+attribute_hidden SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP variable_name = CAR(args);
     SEXP string_length = CAR(CDR(args));
@@ -125,13 +125,46 @@ attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP 
     if (!isString(variable_name) || LENGTH(variable_name) != 1)
         error(_("first argument: expected string (variable name)"));
 
-    if (!isReal(string_length))
+    if (!isReal(string_length) && !isInteger(string_length))
         error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(string_length)
+        bufferLength = lround(Rf_asReal(string_length)) + 1;
+    else
+        bufferLength = Rf_asInteger(string_length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected positive value"));
+
+    char * buf = malloc(bufferLength);
+
+    buf[bufferLength-1] = 0;
+
+    SEXP ans = allocVector(RAWSXP, bufferLength);
+    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)RAW(ans), bufferLength);
+
+    return ans;
+}
+
+attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+    error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+    error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length))
+    error(_("second argument: expected int (result length)"));
 
     int bufferLength = lround(Rf_asReal(string_length)) + 1;
 
     if (bufferLength <= 0)
-        error(_("second argument: expected positive value"));
+    error(_("second argument: expected positive value"));
 
     char * buf = malloc(bufferLength);
 
