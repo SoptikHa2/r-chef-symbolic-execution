@@ -10,6 +10,9 @@
 #include "s2e.h"
 #include "Chef.h"
 
+// Start symbolic execution. It can be stopped and subsequently started multiple times.
+// Executing this when symbolic execution is already running will result in a recoverable error.
+// So it won't do anything, but there will be a nasty message in the log.
 void R_StartSymbolicExecution() {
     struct S2E_CHEF_COMMAND cmd;
     cmd.Command = START_CHEF;
@@ -17,6 +20,9 @@ void R_StartSymbolicExecution() {
     s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
+/// End symbolic execution. It can be later resumed.
+/// If the first parameter is FALSE, nothing special will happen.
+/// If the first parameter is TRUE, an error case will be logged and assignment of input variables will be generated to reach this state.
 void R_EndSymbolicExecution(int errorHappened) {
     struct S2E_CHEF_COMMAND cmd;
     cmd.Command = END_CHEF;
@@ -25,6 +31,11 @@ void R_EndSymbolicExecution(int errorHappened) {
     s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
+/// Record execution of instruction with given option at given location.
+/// The opcode is for performance purposes - Chef will prioritize states with diverse opcodes. Setting it to zero
+/// does not break anything.
+/// All other parameters are for debugging/log purposes only, they can be left out. Only the first 60 chars
+/// of filename/funcname will be transfered.
 void R_UpdateHighLevelInstruction(u_int32_t opcode, uint32_t line, const char * filename, const char * funcname) {
     struct S2E_CHEF_COMMAND cmd;
     cmd.Command = TRACE_UPDATE;
@@ -37,6 +48,8 @@ void R_UpdateHighLevelInstruction(u_int32_t opcode, uint32_t line, const char * 
     s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
+/// Mark given buffer with given size as symbolic. Register it with variable named, that will be used
+/// for logging and marking variables for user.
 void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize) {
     s2e_make_symbolic(buffer, bufferSize, variableName);
 }
@@ -45,18 +58,26 @@ void R_SendDebugMessage(const char * message) {
     s2e_message(message);
 }
 
+/// If first parameter is false, kill the state (without marking it as error, thus without generating any testcases).
+/// This can be used to implement arbitrary conditions for symbolic variables, in line of:
+/// 1. generate symbolic int
+/// 2. R_Assume(symbInt > 14 && symbInt & 0xFF == 0xAB);
 void R_Assume(int assumption) {
     if(!assumption) {
         s2e_kill_state(0, "R_Assume creating a constraint");
     }
 }
 
+/// Symbolic execution has to be enabled by setting the envvar R_SYMBEX to "1". If
+/// this is not the case, this function returns false.
 Rboolean R_SymbexEnabled() {
     const char * symbex = getenv("R_SYMBEX");
     if (symbex && strcmp(symbex, "1") == 0) return TRUE;
     return FALSE;
 }
 
+/// R function: send debug message.
+/// Exepcted one parameter, a string.
 attribute_hidden SEXP do_chefDebugMessage(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP debug_msg = CAR(args);
@@ -72,6 +93,8 @@ attribute_hidden SEXP do_chefDebugMessage(SEXP call, SEXP op, SEXP args, SEXP en
     return R_NilValue;
 }
 
+/// R function, start symbolic execution.
+/// Expected zero parameters.
 attribute_hidden SEXP do_chefStartSymbex(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
 
@@ -83,6 +106,8 @@ attribute_hidden SEXP do_chefStartSymbex(SEXP call, SEXP op, SEXP args, SEXP env
     return R_NilValue;
 }
 
+/// R function, end symbolic execution.
+/// Expected one parmaeter, see R_EndSymbolicExecution.
 attribute_hidden SEXP do_chefEndSymbex(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP error_happened = CAR(args);
@@ -98,6 +123,8 @@ attribute_hidden SEXP do_chefEndSymbex(SEXP call, SEXP op, SEXP args, SEXP env) 
     return R_NilValue;
 }
 
+/// R function, generate symbolic integer.
+/// Expected one parmatere (variable name, a string).
 attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP variable_name = CAR(args);
@@ -114,6 +141,8 @@ attribute_hidden SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env
     return ScalarInteger(symbolicValue);
 }
 
+/// R function, generate symbolic byte vector.
+/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
 attribute_hidden SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP variable_name = CAR(args);
@@ -147,6 +176,10 @@ attribute_hidden SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP e
     return ans;
 }
 
+/// R function, generate symbolic string.
+/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
+/// The actual generated string might be shorter than the requested length if a nullbyte occurs somewhere
+/// in the symbolically generated args. The length provided is the maximum size of the string + 1 (because of a nullbyte).
 attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP variable_name = CAR(args);
@@ -158,10 +191,14 @@ attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP 
     if (!isString(variable_name) || LENGTH(variable_name) != 1)
     error(_("first argument: expected string (variable name)"));
 
-    if (!isReal(string_length))
+    if (!isReal(string_length) && !isInteger(string_length))
     error(_("second argument: expected int (result length)"));
 
-    int bufferLength = lround(Rf_asReal(string_length)) + 1;
+    int bufferLength;
+    if isReal(string_length)
+        bufferLength = lround(Rf_asReal(string_length)) + 1;
+    else
+        bufferLength = Rf_asInteger(string_length);
 
     if (bufferLength <= 0)
     error(_("second argument: expected positive value"));
@@ -174,6 +211,9 @@ attribute_hidden SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP 
     return mkString(buf);
 }
 
+/// R function, assume a condition.
+/// Expected one parameter, a logical.
+/// See R_Assume for details.
 attribute_hidden SEXP do_chefAssume(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP assumption;
@@ -190,6 +230,9 @@ attribute_hidden SEXP do_chefAssume(SEXP call, SEXP op, SEXP args, SEXP env) {
     return R_NilValue;
 }
 
+/// R function, assert a condition.
+/// Expected one parameter, a logical.
+/// If the condition is false, symbolic execution will be stopped and a testcase will be generated.
 attribute_hidden SEXP do_chefAssert(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP assertion;

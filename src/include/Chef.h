@@ -3,6 +3,8 @@
 
 #include "Defn.h"
 
+// For debugging purposes: emits line number of file of the location where is called and passes it to Chef.
+// Useful for when symbolic execution gets stuck and we want to know where.
 #ifndef chef_log
 #define chef_log() do { if (R_SymbexEnabled()) { char buffer[128]; sprintf(buffer, "LOG: %s : %d\n", __FILE__, __LINE__); R_SendDebugMessage(buffer); } } while(0)
 #endif

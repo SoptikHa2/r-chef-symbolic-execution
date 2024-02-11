@@ -1058,18 +1058,24 @@ const char * getFunNameFromLANGSXP(SEXP expr) {
 /* some places, e.g. deparse2buff, call this with a promise and rho = NULL */
 SEXP eval(SEXP e, SEXP rho)
 {
+    // If envvar R_SYMBEX is set to "1"
     if (R_SymbexEnabled()) {
+        // Find out the function name. Note that this might not work if we are at top level, and might return NULL.
         const char * funToBeCalled = getFunNameFromLANGSXP(e);
 
-        // get line number from current srcref
+        // Get line number from current srcref. This, yet again, not always works and might not be possible to
+        // find out.
         int line = 0;
         if (R_Srcref != R_NilValue) {
             line = INTEGER(R_Srcref)[2];
         }
 
-        // get function currently being called
+        // Get function currently being called, if there is one
         const char * topLevelCall = R_GlobalContext ? getFunNameFromLANGSXP(R_GlobalContext->call) : NULL;
 
+        // Send update to Chef about currently executing instruction. Note that multiple calls per one line of code
+        // may occur. While this does not affect Chef at all, it might be surprising.
+        // As of now, I did not find out how to retrieve file name of currently executing code.
         R_UpdateHighLevelInstruction((u_int32_t)(size_t)e, line, NULL, topLevelCall ? topLevelCall : "unknown (top level?)");
     }
 
