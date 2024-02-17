@@ -36,14 +36,14 @@ void R_EndSymbolicExecution(int errorHappened) {
 /// does not break anything.
 /// All other parameters are for debugging/log purposes only, they can be left out. Only the first 60 chars
 /// of filename/funcname will be transfered.
-void R_UpdateHighLevelInstruction(u_int32_t opcode, uint32_t line, const char * filename, const char * funcname) {
+void R_UpdateHighLevelInstruction(u_int32_t opcode, u_int32_t pc, uint32_t line, const char * filename, const char * funcname) {
     struct S2E_CHEF_COMMAND cmd;
     cmd.Command = TRACE_UPDATE;
     cmd.data.trace.op_code = opcode;
     strncpy((char *)cmd.data.trace.filename, filename ? filename : "<no support>", 60);
     strncpy((char *)cmd.data.trace.function, funcname ? funcname : "<no support>", 60);
     cmd.data.trace.line = line;
-    cmd.data.trace.pc = 0;
+    cmd.data.trace.pc = pc;
 
     s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }

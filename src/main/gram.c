@@ -3959,40 +3959,42 @@ static SEXP R_Parse1(ParseStatus *status)
     switch(yyparse()) {
     case 0:
 	switch(Status) {
-	case 0:                     /* End of file */
-	    *status = PARSE_EOF;
-	    if (EndOfFile == 2) *status = PARSE_INCOMPLETE;
-	    break;
-	case 1:                     /* Error (currently unreachable) */
-	    *status = PARSE_ERROR;
-	    if (EndOfFile) *status = PARSE_INCOMPLETE;
-	    break;
-	case 2:                     /* Empty Line */
-	    *status = PARSE_NULL;
-	    break;
-	case 3:                     /* Valid expr '\n' terminated */
-	case 4:                     /* Valid expr ';' terminated */
-	    if (checkForPlaceholder(R_PlaceholderToken, R_CurrentExpr)) {
-	        YYLTYPE lloc;
-	        lloc.first_line = ParseState.xxlineno;
-		lloc.first_column = ParseState.xxcolno;
-	        if (Status == 3) lloc.first_line--;
-		raiseParseError("invalidPlaceholder", R_CurrentExpr,
-		                NO_VALUE, NULL, &lloc,
-			  _("invalid use of pipe placeholder (%s:%d:%d)"));
-            }
-	    if (checkForPipeBind(R_CurrentExpr)) {
-	        YYLTYPE lloc;
-	        lloc.first_line = ParseState.xxlineno;
-		lloc.first_column = ParseState.xxcolno;
-	        if (Status == 3) lloc.first_line--;
-		raiseParseError("invalidPipeBind", R_CurrentExpr, 
-		                NO_VALUE, NULL, &lloc,
-			  _("invalid use of pipe bind symbol (%s:%d:%d)"));
-	    }
-	    *status = PARSE_OK;
-	    break;
-	}
+        case 0:                     /* End of file */
+            *status = PARSE_EOF;
+            if (EndOfFile == 2) *status = PARSE_INCOMPLETE;
+            break;
+        case 1:                     /* Error (currently unreachable) */
+            *status = PARSE_ERROR;
+            if (EndOfFile) *status = PARSE_INCOMPLETE;
+            break;
+        case 2:                     /* Empty Line */
+            *status = PARSE_NULL;
+            break;
+        case 3:                     /* Valid expr '\n' terminated */
+        case 4:                     /* Valid expr ';' terminated */
+        if (checkForPlaceholder(R_PlaceholderToken, R_CurrentExpr)) {
+            YYLTYPE lloc;
+            lloc.first_line = ParseState.xxlineno;
+            lloc.first_column = ParseState.xxcolno;
+            if (Status == 3) lloc.first_line--;
+            raiseParseError("invalidPlaceholder", R_CurrentExpr,
+                            NO_VALUE, NULL, &lloc,
+                            _("invalid use of pipe placeholder (%s:%d:%d)"));
+        }
+        if (checkForPipeBind(R_CurrentExpr)) {
+            YYLTYPE lloc;
+            lloc.first_line = ParseState.xxlineno;
+            lloc.first_column = ParseState.xxcolno;
+            if (Status == 3) lloc.first_line--;
+            raiseParseError("invalidPipeBind", R_CurrentExpr,
+                            NO_VALUE, NULL, &lloc,
+                            _("invalid use of pipe bind symbol (%s:%d:%d)"));
+        }
+        R_CurrentExpr->col = ParseState.xxlineno;
+        R_CurrentExpr->line = ParseState.xxcolno;
+        *status = PARSE_OK;
+        break;
+    }
 	break;
     case 1:                     /* Syntax error / incomplete */
 	*status = PARSE_ERROR;
