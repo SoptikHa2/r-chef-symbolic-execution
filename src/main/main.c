@@ -38,6 +38,7 @@
 #include "Fileio.h"
 #include "Parse.h"
 #include "Startup.h"
+#include <Chef.h>
 
 #include <locale.h>
 #include <R_ext/Print.h>
@@ -494,6 +495,9 @@ static unsigned char ConsoleBuf[CONSOLE_BUFFER_SIZE];
 
 static void sigactionSegv(int signum, siginfo_t *ip, void *context)
 {
+    // Exit s2e session unsuccessfully
+    if (R_SymbexEnabled) R_EndSymbolicExecution(1);
+
     char *s;
 
     /* First check for stack overflow if we know the stack position.
