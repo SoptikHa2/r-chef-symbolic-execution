@@ -654,6 +654,7 @@ FUNTAB R_FunTab[] =
 {".Call.graphics", do_dotcallgr, 0,	1,	-1,	{PP_FOREIGN, PREC_FN,	0}},
 
 /* Chef: Symbolic Execution support */
+// When adding new functions that generate variables here, consider adding them to the whitelist in eval.c (chef_functionArgAlterWhitelist array) as well
 
 {"chef_start", do_chefStartSymbex, 0, 100, 0, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_end", do_chefEndSymbex, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },

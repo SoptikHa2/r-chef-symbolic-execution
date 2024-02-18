@@ -1055,6 +1055,85 @@ const char * getFunNameFromLANGSXP(SEXP expr) {
     return CHAR(name);
 }
 
+typedef struct funNameArgCount {
+    const char * funName;
+    int argCount;
+} funNameArgCount;
+
+funNameArgCount chef_functionArgAlterWhitelist[] = {
+        { "chef_int", 1 },
+        { "chef_string", 2 },
+        { "chef_raw", 2 }
+};
+/// Check if the function call is in the whitelist of functions that can have their arguments altered.
+/// If so, return true and set argCount to the number of arguments the function takes.
+Rboolean isInChefArgAlterWhitelist(const char * funName, int * argCount) {
+    for (int i = 0; i < sizeof(chef_functionArgAlterWhitelist) / sizeof(*chef_functionArgAlterWhitelist); i++) {
+        if (strcmp(chef_functionArgAlterWhitelist[i].funName, funName) == 0) {
+            *argCount = chef_functionArgAlterWhitelist[i].argCount;
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+/// This funciton is called from eval and accepts LANGSXP.
+/// If the LANGSXP is <- and:
+/// 1. The first argument is a SYMSXP (a variable)
+/// 2. The second argument contains function call to one of chef_symbolic functions without enough arguments
+/// this function modifies the AST so that the argument for the chef_symbolic function is automatically included.
+///
+/// Context: chef_symbolic functions is a family of functions that generate symbolic variables, such as `chef_int` or `chef_bytes`.
+/// Those calls require the user to supply variable name as a parameter. However, this is annoying.
+/// This function automates it: when it detects a call to one of those functions without supplied variable name, it automatically
+/// adds it if it can infer it.
+/// /// As a result, in basic cases, the following:
+/// ```R
+/// favourite_pony <- chef_int("favourite_pony")
+/// ```
+/// can be written as:
+/// ```R
+/// favourite_pony <- chef_int()
+/// ```
+/// which is much more convenient.
+void alterSymbolicAssignment(SEXP e) {
+
+    const char * funName = CHAR(PRINTNAME(CAR(e)));
+
+    if (strcmp(funName, "<-") == 0) {
+        // We are assigning to something.
+        // Check if there is a single variable on left
+        // and a single call to one of chef_symbolic functions on right.
+        // If so and the chef symbolic function misses a variable name parameter,
+        // fill it back in.
+        SEXP variable = CAR(CDR(e));
+        SEXP value = CAR(CDR(CDR(e)));
+
+        if (TYPEOF(variable) == SYMSXP && TYPEOF(value) == LANGSXP) {
+            // State: we are assigning to a SYMSXP (a variable) and there is a function call on the right side
+
+            SEXP arglist = CDR(value);
+            const char * functionCalled = CHAR(PRINTNAME(CAR(value)));
+            const char * variableName = CHAR(PRINTNAME(variable));
+
+            int nargs = -1;
+            if (isInChefArgAlterWhitelist(functionCalled, &nargs) && length(arglist) == nargs - 1) {
+                // State: there is our function on the right side that is missing an argument.
+
+                // Save parameters present in the original call
+                SEXP originalArglist = arglist;
+
+               SEXP variableNameArgument = PROTECT(allocVector(STRSXP, 1));
+               SET_STRING_ELT(variableNameArgument, 0, PRINTNAME(variable));
+               // Append it to the function call arguments
+               SETCDR(value, list1(variableNameArgument));
+               SETCDR(CDR(value), originalArglist); // add original arguments back
+               UNPROTECT(1);
+            }
+        }
+    }
+}
+
 /* some places, e.g. deparse2buff, call this with a promise and rho = NULL */
 SEXP eval(SEXP e, SEXP rho)
 {
@@ -1244,6 +1323,9 @@ SEXP eval(SEXP e, SEXP rho)
 	if (TYPEOF(CAR(e)) == SYMSXP) {
 	    /* This will throw an error if the function is not found */
 	    SEXP ecall = e;
+
+        // Add support for calling chef_X functions without arguments when it can be inferred.
+        alterSymbolicAssignment(e);
 
 	    /* This picks the correct/better error expression for
 	       replacement calls running in the AST interpreter. */
