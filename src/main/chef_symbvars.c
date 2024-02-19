@@ -101,3 +101,22 @@ SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
 
     return mkString(buf);
 }
+
+
+/// Generate symbolic numeric value (REALSXP).
+SEXP do_chefSymbolicReal(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+
+    double symbolicValue;
+    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
+
+    return ScalarReal(symbolicValue);
+}

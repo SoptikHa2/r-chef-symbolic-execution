@@ -1062,6 +1062,7 @@ typedef struct funNameArgCount {
 
 funNameArgCount chef_functionArgAlterWhitelist[] = {
         { "chef_int", 1 },
+        { "chef_numeric", 1 },
         { "chef_string", 2 },
         { "chef_raw", 2 }
 };
