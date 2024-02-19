@@ -37,7 +37,7 @@ SOURCES_C = \
 	times.c \
 	unique.c util.c \
     version.c \
-    chef.c \
+    chef.c chef_symbvars.c \
 	g_alab_her.c g_cntrlify.c g_fontdb.c g_her_glyph.c
 
 SOURCES_F =  xxxpr.f
