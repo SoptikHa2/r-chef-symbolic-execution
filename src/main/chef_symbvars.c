@@ -61,9 +61,10 @@ SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
 
     buf[bufferLength-1] = 0;
 
-    SEXP ans = allocVector(RAWSXP, bufferLength);
+    SEXP ans = PROTECT(allocVector(RAWSXP, bufferLength));
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)RAW(ans), bufferLength);
 
+    UNPROTECT(1);
     return ans;
 }
 
@@ -99,7 +100,9 @@ SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&buf, bufferLength-1);
     buf[bufferLength-1] = 0;
 
-    return mkString(buf);
+    SEXP ans = mkString(buf);
+    free(buf);
+    return ans;
 }
 
 
@@ -119,4 +122,60 @@ SEXP do_chefSymbolicReal(SEXP call, SEXP op, SEXP args, SEXP env) {
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
 
     return ScalarReal(symbolicValue);
+}
+
+
+SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name_arg = CAR(args);
+    SEXP vec_length_arg = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name_arg) || LENGTH(variable_name_arg) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(vec_length_arg) && !isInteger(vec_length_arg))
+        error(_("second argument: expected int (result length)"));
+
+    int vec_length;
+    if isReal(vec_length_arg)
+        vec_length = lround(Rf_asReal(vec_length_arg)) + 1;
+    else
+        vec_length = Rf_asInteger(vec_length_arg);
+
+    const char * variable_name = translateCharFP(STRING_ELT(variable_name_arg, 0));
+
+    char vecTypeVarName[180];
+    snprintf(vecTypeVarName, 180, "%s_type", variable_name);
+    vecTypeVarName[179] = 0;
+
+    SEXPTYPE vecType;
+    R_GenerateSymbolicVar(vecTypeVarName, (void *)&vecType, sizeof(vecType));
+    // STRSXP, VECSXP and EXPRSXP are not supported
+    R_Assume(vecType == LGLSXP || vecType == INTSXP || vecType == REALSXP || vecType == CPLXSXP || vecType == RAWSXP);
+
+    SEXP vector = PROTECT(allocVector(vecType, vec_length));
+
+    if (vecType == LGLSXP) {
+        R_GenerateSymbolicVar(variable_name, (void *)LOGICAL(vector), vec_length * sizeof(Rboolean));
+    } else if (vecType == INTSXP) {
+        R_GenerateSymbolicVar(variable_name, (void *)INTEGER(vector), vec_length * sizeof(int));
+    } else if (vecType == REALSXP) {
+        R_GenerateSymbolicVar(variable_name, (void *)REAL(vector), vec_length * sizeof(double));
+    } else if (vecType == CPLXSXP) {
+        R_GenerateSymbolicVar(variable_name, (void *)COMPLEX(vector), vec_length * sizeof(Rcomplex));
+    } else if (vecType == STRSXP) {
+        // ...
+    } else if (vecType == VECSXP) {
+        // ...
+    } else if (vecType == RAWSXP) {
+        R_GenerateSymbolicVar(variable_name, (void *)RAW(vector), vec_length * sizeof(Rbyte));
+    } else if (vecType == EXPRSXP) {
+        // ...
+    }
+
+    UNPROTECT(1);
+    return vector;
 }

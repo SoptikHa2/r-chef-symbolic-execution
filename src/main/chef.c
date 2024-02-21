@@ -34,7 +34,7 @@ void R_EndSymbolicExecution(int errorHappened) {
 /// does not break anything.
 /// All other parameters are for debugging/log purposes only, they can be left out. Only the first 60 chars
 /// of filename/funcname will be transfered.
-void R_UpdateHighLevelInstruction(u_int32_t opcode, u_int32_t pc, uint32_t line, const char * filename, const char * funcname) {
+attribute_hidden void R_UpdateHighLevelInstruction(u_int32_t opcode, u_int32_t pc, uint32_t line, const char * filename, const char * funcname) {
     struct S2E_CHEF_COMMAND cmd;
     cmd.Command = TRACE_UPDATE;
     cmd.data.trace.op_code = opcode;
@@ -56,9 +56,7 @@ void R_SendDebugMessage(const char * message) {
 /// 1. generate symbolic int
 /// 2. R_Assume(symbInt > 14 && symbInt & 0xFF == 0xAB);
 void R_Assume(int assumption) {
-    if(!assumption) {
-        s2e_kill_state(0, "R_Assume creating a constraint");
-    }
+    s2e_assume(assumption);
 }
 
 /// Symbolic execution has to be enabled by setting the envvar R_SYMBEX to "1". If

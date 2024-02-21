@@ -561,6 +561,7 @@ SEXP do_chefSymbolicInt(SEXP, SEXP, SEXP, SEXP);
 SEXP do_chefSymbolicReal(SEXP, SEXP, SEXP, SEXP);
 SEXP do_chefSymbolicBytes(SEXP, SEXP, SEXP, SEXP);
 SEXP do_chefSymbolicString(SEXP, SEXP, SEXP, SEXP);
+SEXP do_chefSymbolicVec(SEXP, SEXP, SEXP, SEXP);
 SEXP do_chefAssume(SEXP, SEXP, SEXP, SEXP);
 SEXP do_chefAssert(SEXP, SEXP, SEXP, SEXP);
 
