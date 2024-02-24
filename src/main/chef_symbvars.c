@@ -29,6 +29,8 @@ SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env) {
     int32_t symbolicValue;
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
 
+    R_Assume(symbolicValue != -2147483648); // Out of bounds for R, outputs NA, which is not desired for this function
+
     return ScalarInteger(symbolicValue);
 }
 
