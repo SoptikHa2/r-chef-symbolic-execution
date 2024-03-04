@@ -666,7 +666,6 @@ FUNTAB R_FunTab[] =
 {"chef_vec", do_chefSymbolicVec, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_assume", do_chefAssume, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
 {"chef_assert", do_chefAssert, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
-//{"chef_c", do_chefSymbolicVector, 0, 0, 0, {PP_FUNCALL, PREC_FN, 0} },
 
 /* .Internal */
 {"eapply",	do_eapply,	0,	10,	4,	{PP_FUNCALL, PREC_FN,	0}},

@@ -102,8 +102,13 @@ SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&buf, bufferLength-1);
     buf[bufferLength-1] = 0;
 
-    SEXP ans = mkString(buf);
+    SEXP ans;
+    PROTECT(ans = allocVector(STRSXP, 1));
+    SET_STRING_ELT(ans, 0, mkCharCE(buf, CE_NATIVE));
+
     free(buf);
+    UNPROTECT(1);
+
     return ans;
 }
 
