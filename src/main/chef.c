@@ -154,3 +154,134 @@ attribute_hidden SEXP do_chefAssert(SEXP call, SEXP op, SEXP args, SEXP env) {
 
     return R_NilValue;
 }
+
+/// R function, generate symbolic integer.
+/// Expected one parmatere (variable name, a string).
+SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+
+    if (!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("character argument expected"));
+
+    return R_SymbolicInt(translateCharFP(STRING_ELT(variable_name, 0)));
+}
+
+/// R function, generate symbolic byte vector.
+/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
+SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length) && !isInteger(string_length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(string_length)
+    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    else
+    bufferLength = Rf_asInteger(string_length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected positive value"));
+
+    return R_SymbolicRaw(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
+}
+
+
+/// Generate symbolic numeric value (REALSXP).
+SEXP do_chefSymbolicReal(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+
+    return R_SymbolicReal(translateCharFP(STRING_ELT(variable_name, 0)));
+}
+
+
+SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length) && !isInteger(string_length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(string_length)
+    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    else
+    bufferLength = Rf_asInteger(string_length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected positive value"));
+
+    return R_SymbolicVec(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
+}
+
+
+SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name_arg = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name_arg) || LENGTH(variable_name_arg) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length) && !isInteger(string_length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(string_length)
+    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    else
+    bufferLength = Rf_asInteger(string_length);
+
+    const char * variable_name = translateCharFP(STRING_ELT(variable_name_arg, 0));
+
+    char symbValTypeName[180];
+    snprintf(symbValTypeName, 180, "%s_type", variable_name);
+    symbValTypeName[179] = 0;
+
+    unsigned symbValType;
+    R_GenerateSymbolicVar(symbValTypeName, &symbValType, sizeof(symbValType));
+
+    switch(symbValType) {
+        case 0:
+            return R_SymbolicInt(variable_name);
+        case 1:
+            return R_SymbolicRaw(variable_name, bufferLength);
+        case 2:
+            return R_SymbolicReal(variable_name);
+        case 3:
+            return R_SymbolicVec(variable_name, bufferLength);
+        default:
+            R_Assume(0); // not valid, will kill this state
+            return NULL;
+    }
+}

@@ -14,144 +14,32 @@ attribute_hidden void R_GenerateSymbolicVar(const char * variableName, void * bu
     s2e_make_symbolic(buffer, bufferSize, variableName);
 }
 
-/// R function, generate symbolic integer.
-/// Expected one parmatere (variable name, a string).
-SEXP do_chefSymbolicInt(SEXP call, SEXP op, SEXP args, SEXP env) {
-    checkArity(op, args);
-    SEXP variable_name = CAR(args);
-
-    if(!R_SymbexEnabled())
-        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
-
-    if (!isString(variable_name) || LENGTH(variable_name) != 1)
-        error(_("character argument expected"));
-
+SEXP R_SymbolicInt(const char * name) {
     int32_t symbolicValue;
-    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
+    R_GenerateSymbolicVar(name, (void *)&symbolicValue, sizeof(symbolicValue));
 
     R_Assume(symbolicValue != -2147483648); // Out of bounds for R, outputs NA, which is not desired for this function
 
     return ScalarInteger(symbolicValue);
 }
 
-/// R function, generate symbolic byte vector.
-/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
-SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
-    checkArity(op, args);
-    SEXP variable_name = CAR(args);
-    SEXP string_length = CAR(CDR(args));
-
-    if(!R_SymbexEnabled())
-        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
-
-    if (!isString(variable_name) || LENGTH(variable_name) != 1)
-        error(_("first argument: expected string (variable name)"));
-
-    if (!isReal(string_length) && !isInteger(string_length))
-        error(_("second argument: expected int (result length)"));
-
-    int bufferLength;
-    if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length)) + 1;
-    else
-    bufferLength = Rf_asInteger(string_length);
-
-    if (bufferLength <= 0)
-        error(_("second argument: expected positive value"));
-
-    SEXP ans = PROTECT(allocVector(RAWSXP, bufferLength));
-    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)RAW(ans), bufferLength);
-
-    UNPROTECT(1);
-    return ans;
-}
-
-/// R function, generate symbolic string.
-/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
-/// The actual generated string might be shorter than the requested length if a nullbyte occurs somewhere
-/// in the symbolically generated args. The length provided is the maximum size of the string + 1 (because of a nullbyte).
-SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
-    checkArity(op, args);
-    SEXP variable_name = CAR(args);
-    SEXP string_length = CAR(CDR(args));
-
-    if(!R_SymbexEnabled())
-        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
-
-    if (!isString(variable_name) || LENGTH(variable_name) != 1)
-        error(_("first argument: expected string (variable name)"));
-
-    if (!isReal(string_length) && !isInteger(string_length))
-        error(_("second argument: expected int (result length)"));
-
-    int bufferLength;
-    if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length)) + 1;
-    else
-    bufferLength = Rf_asInteger(string_length);
-
-    if (bufferLength <= 0)
-        error(_("second argument: expected positive value"));
-
-    char * buf = malloc(bufferLength);
-
-    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&buf, bufferLength-1);
-    buf[bufferLength-1] = 0;
-
-    SEXP ans;
-    PROTECT(ans = allocVector(STRSXP, 1));
-    SET_STRING_ELT(ans, 0, mkCharCE(buf, CE_NATIVE));
-
-    free(buf);
-    UNPROTECT(1);
+SEXP R_SymbolicRaw(const char * name, int length) {
+    SEXP ans = allocVector(RAWSXP, length);
+    R_GenerateSymbolicVar(name, (void *)RAW(ans), length);
 
     return ans;
 }
 
-
-/// Generate symbolic numeric value (REALSXP).
-SEXP do_chefSymbolicReal(SEXP call, SEXP op, SEXP args, SEXP env) {
-    checkArity(op, args);
-    SEXP variable_name = CAR(args);
-
-    if(!R_SymbexEnabled())
-        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
-
-    if (!isString(variable_name) || LENGTH(variable_name) != 1)
-        error(_("first argument: expected string (variable name)"));
-
-
+SEXP R_SymbolicReal(const char * name) {
     double symbolicValue;
-    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)&symbolicValue, sizeof(symbolicValue));
+    R_GenerateSymbolicVar(name, (void *)&symbolicValue, sizeof(symbolicValue));
 
     return ScalarReal(symbolicValue);
 }
 
-
-SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
-    checkArity(op, args);
-    SEXP variable_name_arg = CAR(args);
-    SEXP vec_length_arg = CAR(CDR(args));
-
-    if(!R_SymbexEnabled())
-        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
-
-    if (!isString(variable_name_arg) || LENGTH(variable_name_arg) != 1)
-        error(_("first argument: expected string (variable name)"));
-
-    if (!isReal(vec_length_arg) && !isInteger(vec_length_arg))
-        error(_("second argument: expected int (result length)"));
-
-    int vec_length;
-    if isReal(vec_length_arg)
-        vec_length = lround(Rf_asReal(vec_length_arg)) + 1;
-    else
-        vec_length = Rf_asInteger(vec_length_arg);
-
-    const char * variable_name = translateCharFP(STRING_ELT(variable_name_arg, 0));
-
+SEXP R_SymbolicVec(const char * name, int length) {
     char vecTypeVarName[180];
-    snprintf(vecTypeVarName, 180, "%s_type", variable_name);
+    snprintf(vecTypeVarName, 180, "%s_type", name);
     vecTypeVarName[179] = 0;
 
     SEXPTYPE vecType;
@@ -159,26 +47,89 @@ SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
     // STRSXP, VECSXP and EXPRSXP are not supported
     R_Assume(vecType == LGLSXP || vecType == INTSXP || vecType == REALSXP || vecType == CPLXSXP || vecType == RAWSXP);
 
-    SEXP vector = PROTECT(allocVector(vecType, vec_length));
+    SEXP vector = PROTECT(allocVector(vecType, length));
 
     if (vecType == LGLSXP) {
-        R_GenerateSymbolicVar(variable_name, (void *)LOGICAL(vector), vec_length * sizeof(Rboolean));
+        R_GenerateSymbolicVar(name, (void *)LOGICAL(vector), length * sizeof(Rboolean));
     } else if (vecType == INTSXP) {
-        R_GenerateSymbolicVar(variable_name, (void *)INTEGER(vector), vec_length * sizeof(int));
+        R_GenerateSymbolicVar(name, (void *)INTEGER(vector), length * sizeof(int));
     } else if (vecType == REALSXP) {
-        R_GenerateSymbolicVar(variable_name, (void *)REAL(vector), vec_length * sizeof(double));
+        R_GenerateSymbolicVar(name, (void *)REAL(vector), length * sizeof(double));
     } else if (vecType == CPLXSXP) {
-        R_GenerateSymbolicVar(variable_name, (void *)COMPLEX(vector), vec_length * sizeof(Rcomplex));
+        R_GenerateSymbolicVar(name, (void *)COMPLEX(vector), length * sizeof(Rcomplex));
     } else if (vecType == STRSXP) {
         // ...
     } else if (vecType == VECSXP) {
         // ...
     } else if (vecType == RAWSXP) {
-        R_GenerateSymbolicVar(variable_name, (void *)RAW(vector), vec_length * sizeof(Rbyte));
+        R_GenerateSymbolicVar(name, (void *)RAW(vector), length * sizeof(Rbyte));
     } else if (vecType == EXPRSXP) {
         // ...
     }
 
     UNPROTECT(1);
     return vector;
+}
+
+/// R function, generate symbolic string.
+/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
+/// The actual generated string might be shorter than the requested length if a nullbyte occurs somewhere
+/// in the symbolically generated args. The length provided is the maximum size of the string + 1 (because of a nullbyte).
+SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
+    printf("Symbstring\n");
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length) && !isInteger(string_length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(string_length)
+    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    else
+    bufferLength = Rf_asInteger(string_length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected positive value"));
+
+    printf("0\n");
+
+    SEXP ans, charsxp;
+    PROTECT(ans = allocVector(STRSXP, 1));
+    printf("2\n");
+    // Create a temp string that we will use to generate enough space for the real string
+    // It will be deleted later, but I didn't figure out yet how to do it better, eg with mkCharLen.
+    char * tmpString = (char *)malloc(bufferLength);
+    for (int i = 0; i < bufferLength; i++) {
+        tmpString[i] = 'A';
+    }
+    tmpString[bufferLength-1] = 0;
+    PROTECT(charsxp = mkCharLen("", bufferLength)); // TODO: disable cache
+    printf("3\n");
+    ((char *)STDVEC_DATAPTR(charsxp))[bufferLength-1] = 0; // terminating nullbyte
+    SET_STRING_ELT(ans, 0, charsxp);
+    printf("A\n");
+    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)CHAR(charsxp), bufferLength-1);
+    printf("B\n");
+
+    // assume that there are no imm nullbytes
+    for(int i = 0; i < bufferLength; i++) {
+        printf("C\n");
+        R_Assume(CHAR(charsxp)[i] != 0);
+        printf("D\n");
+    }
+    printf("E\n");
+
+    free(tmpString);
+
+    UNPROTECT(2);
+
+    return ans;
 }

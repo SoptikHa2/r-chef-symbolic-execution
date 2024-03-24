@@ -1066,6 +1066,7 @@ funNameArgCount chef_functionArgAlterWhitelist[] = {
         { "chef_string", 2 },
         { "chef_raw", 2 },
         { "chef_vec", 2 },
+        { "chef_any", 2 },
 };
 /// Check if the function call is in the whitelist of functions that can have their arguments altered.
 /// If so, return true and set argCount to the number of arguments the function takes.
