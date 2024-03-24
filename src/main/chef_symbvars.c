@@ -59,10 +59,6 @@ SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
     if (bufferLength <= 0)
         error(_("second argument: expected positive value"));
 
-    char * buf = malloc(bufferLength);
-
-    buf[bufferLength-1] = 0;
-
     SEXP ans = PROTECT(allocVector(RAWSXP, bufferLength));
     R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)RAW(ans), bufferLength);
 
