@@ -188,12 +188,12 @@ SEXP do_chefSymbolicBytes(SEXP call, SEXP op, SEXP args, SEXP env) {
 
     int bufferLength;
     if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    bufferLength = lround(Rf_asReal(string_length));
     else
     bufferLength = Rf_asInteger(string_length);
 
     if (bufferLength <= 0)
-        error(_("second argument: expected positive value"));
+        error(_("second argument: expected at least 1"));
 
     return R_SymbolicRaw(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
 }
@@ -231,14 +231,45 @@ SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
 
     int bufferLength;
     if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    bufferLength = lround(Rf_asReal(string_length));
     else
     bufferLength = Rf_asInteger(string_length);
 
     if (bufferLength <= 0)
-        error(_("second argument: expected positive value"));
+        error(_("second argument: expected at least 1"));
 
     return R_SymbolicVec(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
+}
+
+
+/// R function, generate symbolic string.
+/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
+/// The actual generated string might be shorter than the requested length if a nullbyte occurs somewhere
+/// in the symbolically generated args. The length provided is the maximum size of the string + 1 (because of a nullbyte).
+SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP string_length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(string_length) && !isInteger(string_length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(string_length)
+    bufferLength = lround(Rf_asReal(string_length));
+    else
+    bufferLength = Rf_asInteger(string_length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected at least 1"));
+
+    return R_SymbolicString(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
 }
 
 
@@ -258,9 +289,12 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
 
     int bufferLength;
     if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length)) + 1;
+    bufferLength = lround(Rf_asReal(string_length));
     else
     bufferLength = Rf_asInteger(string_length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected at least 1"));
 
     const char * variable_name = translateCharFP(STRING_ELT(variable_name_arg, 0));
 
@@ -280,6 +314,10 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
             return R_SymbolicReal(variable_name);
         case 3:
             return R_SymbolicVec(variable_name, bufferLength);
+        case 4:
+            return R_NilValue;
+        case 5:
+            return R_SymbolicString(variable_name, bufferLength);
         default:
             R_Assume(0); // not valid, will kill this state
             return NULL;

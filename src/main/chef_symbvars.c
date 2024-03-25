@@ -71,61 +71,18 @@ SEXP R_SymbolicVec(const char * name, int length) {
     return vector;
 }
 
-/// R function, generate symbolic string.
-/// Expected two parameters: variable name (a string) and length (an integer or real (will be rounded)).
-/// The actual generated string might be shorter than the requested length if a nullbyte occurs somewhere
-/// in the symbolically generated args. The length provided is the maximum size of the string + 1 (because of a nullbyte).
-SEXP do_chefSymbolicString(SEXP call, SEXP op, SEXP args, SEXP env) {
-    printf("Symbstring\n");
-    checkArity(op, args);
-    SEXP variable_name = CAR(args);
-    SEXP string_length = CAR(CDR(args));
-
-    if(!R_SymbexEnabled())
-        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
-
-    if (!isString(variable_name) || LENGTH(variable_name) != 1)
-        error(_("first argument: expected string (variable name)"));
-
-    if (!isReal(string_length) && !isInteger(string_length))
-        error(_("second argument: expected int (result length)"));
-
-    int bufferLength;
-    if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length)) + 1;
-    else
-    bufferLength = Rf_asInteger(string_length);
-
-    if (bufferLength <= 0)
-        error(_("second argument: expected positive value"));
-
-    printf("0\n");
-
+SEXP R_SymbolicString(const char * name, int length) {
     SEXP ans, charsxp;
     PROTECT(ans = allocVector(STRSXP, 1));
-    printf("2\n");
-    // Create a temp string that we will use to generate enough space for the real string
-    // It will be deleted later, but I didn't figure out yet how to do it better, eg with mkCharLen.
-    char * tmpString = (char *)malloc(bufferLength);
-    for (int i = 0; i < bufferLength; i++) {
-        tmpString[i] = 'A';
-    }
-    tmpString[bufferLength-1] = 0;
-    PROTECT(charsxp = mkCharLen("", bufferLength)); // TODO: disable cache
-    printf("3\n");
-    ((char *)STDVEC_DATAPTR(charsxp))[bufferLength-1] = 0; // terminating nullbyte
-    SET_STRING_ELT(ans, 0, charsxp);
-    printf("A\n");
-    R_GenerateSymbolicVar(translateCharFP(STRING_ELT(variable_name, 0)), (void *)CHAR(charsxp), bufferLength-1);
-    printf("B\n");
 
-    // assume that there are no imm nullbytes
-    for(int i = 0; i < bufferLength; i++) {
-        printf("C\n");
-        R_Assume(CHAR(charsxp)[i] != 0);
-        printf("D\n");
-    }
-    printf("E\n");
+    // Create a temp string that we will use to generate enough space for the real string
+    // It will be deleted later, but I didn't figure out yet how to do it better
+    char * tmpString = (char *)malloc(length);
+    memset(tmpString, 'A', length);
+
+    PROTECT(charsxp = mkCharLen(tmpString, length)); // TODO: disable string cache
+    SET_STRING_ELT(ans, 0, charsxp);
+    R_GenerateSymbolicVar(name, STDVEC_DATAPTR(charsxp), length);
 
     free(tmpString);
 
