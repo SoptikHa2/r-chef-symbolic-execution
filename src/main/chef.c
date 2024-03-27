@@ -318,6 +318,10 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
             return R_NilValue;
         case 5:
             return R_SymbolicString(variable_name, bufferLength);
+        case 6:
+            return R_SymbolicSymsxp(variable_name, bufferLength);
+        case 7:
+            return R_SymbolicListsxp(variable_name, bufferLength);
         default:
             R_Assume(0); // not valid, will kill this state
             return NULL;

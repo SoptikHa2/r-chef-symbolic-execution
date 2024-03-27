@@ -90,3 +90,16 @@ SEXP R_SymbolicString(const char * name, int length) {
 
     return ans;
 }
+
+SEXP R_SymbolicSymsxp(const char * name, int length) {
+    SEXP symstr = PROTECT(R_SymbolicString(name, length));
+
+    SEXP symsxp = mkSYMSXP(STRING_ELT(symstr, 0), R_UnboundValue);
+
+    UNPROTECT(1);
+    return symsxp;
+}
+
+SEXP R_SymbolicListsxp(const char * name, int length) {
+    return VectorToPairList(R_SymbolicVec(name, length));
+}
