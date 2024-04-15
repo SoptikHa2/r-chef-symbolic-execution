@@ -53,6 +53,5 @@ SEXP R_SymbolicReal(const char * name);
 SEXP R_SymbolicVec(const char * name, int length);
 SEXP R_SymbolicString(const char * name, int length);
 SEXP R_SymbolicSymsxp(const char * name, int length);
-SEXP R_SymbolicListsxp(const char * name, int length);
 
 #endif

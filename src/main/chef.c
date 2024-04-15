@@ -299,7 +299,7 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
     const char * variable_name = translateCharFP(STRING_ELT(variable_name_arg, 0));
 
     char symbValTypeName[180];
-    snprintf(symbValTypeName, 180, "%s_type", variable_name);
+    snprintf(symbValTypeName, 180, "any__%s", variable_name);
     symbValTypeName[179] = 0;
 
     unsigned symbValType;
@@ -320,8 +320,6 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
             return R_SymbolicString(variable_name, bufferLength);
         case 6:
             return R_SymbolicSymsxp(variable_name, bufferLength);
-        case 7:
-            return R_SymbolicListsxp(variable_name, bufferLength);
         default:
             R_Assume(0); // not valid, will kill this state
             return NULL;
