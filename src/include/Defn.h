@@ -191,8 +191,6 @@ typedef struct SEXPREC {
 	struct closxp_struct closxp;
 	struct promsxp_struct promsxp;
     } u;
-    int line;
-    int col;
 } SEXPREC;
 
 /* The generational collector uses a reduced version of SEXPREC as a

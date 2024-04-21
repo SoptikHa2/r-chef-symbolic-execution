@@ -3990,8 +3990,6 @@ static SEXP R_Parse1(ParseStatus *status)
                             NO_VALUE, NULL, &lloc,
                             _("invalid use of pipe bind symbol (%s:%d:%d)"));
         }
-        R_CurrentExpr->col = ParseState.xxlineno;
-        R_CurrentExpr->line = ParseState.xxcolno;
         *status = PARSE_OK;
         break;
     }
