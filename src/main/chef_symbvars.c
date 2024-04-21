@@ -10,12 +10,6 @@
 /// Mark given buffer with given size as symbolic. Register it with variable named, that will be used
 /// for logging and marking variables for user.
 attribute_hidden void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize) {
-    // User might have decided to use symbolic variable as length
-    // This is not supported with Klee - let's fix that
-    if (s2e_is_symbolic(&bufferSize, sizeof(bufferSize))) {
-        s2e_concretize(&bufferSize, sizeof(bufferSize));
-    }
-
     s2e_make_symbolic(buffer, bufferSize, variableName);
 }
 
