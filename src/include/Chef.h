@@ -26,9 +26,6 @@ struct S2E_CHEF_COMMAND {
         struct {
             uint32_t op_code;
             uint32_t pc;
-            uint32_t line;
-            uint8_t function[61];
-            uint8_t filename[61];
         } trace;
     } data;
 };
@@ -37,7 +34,7 @@ void R_StartSymbolicExecution();
 
 void R_EndSymbolicExecution(int errorHappened);
 
-void R_UpdateHighLevelInstruction(u_int32_t opcode, u_int32_t pc, uint32_t line, const char * filename, const char * funcname);
+void R_UpdateHighLevelInstruction(u_int32_t opcode, u_int32_t pc);
 
 void R_GenerateSymbolicVar(const char * variableName, void * buffer, size_t bufferSize);
 
