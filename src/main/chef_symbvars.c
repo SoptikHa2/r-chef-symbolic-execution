@@ -96,12 +96,16 @@ SEXP R_SymbolicString(const char * varName, int length) {
 
     // Create a temp string that we will use to generate enough space for the real string
     // It will be deleted later, but I didn't figure out yet how to do it better
-    char * tmpString = (char *)malloc(length);
-    memset(tmpString, 'A', length);
+    char * tmpString = (char *)malloc(length+1);
+    tmpString[length] = 0;
+
+    R_GenerateSymbolicVar(name, tmpString, length);
+    for(int i = 0; i < length; i++) {
+        s2e_assume(tmpString[i] != 0);
+    }
 
     PROTECT(charsxp = mkCharLen(tmpString, length)); // TODO: disable string cache
     SET_STRING_ELT(ans, 0, charsxp);
-    R_GenerateSymbolicVar(name, STDVEC_DATAPTR(charsxp), length);
 
     free(tmpString);
 
