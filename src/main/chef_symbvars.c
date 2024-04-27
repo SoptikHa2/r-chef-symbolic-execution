@@ -104,7 +104,7 @@ SEXP R_SymbolicString(const char * varName, int length) {
         s2e_assume(tmpString[i] != 0);
     }
 
-    PROTECT(charsxp = mkCharLen(tmpString, length)); // TODO: disable string cache
+    PROTECT(charsxp = mkCharLen(tmpString, length));
     SET_STRING_ELT(ans, 0, charsxp);
 
     free(tmpString);
