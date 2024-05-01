@@ -57,10 +57,12 @@ void R_SendDebugMessage(const char * message) {
 /// s2e_assume (or rather klee, which is underneath) would throw an error in that case, since we are passing a constant
 /// into an assumption, which is not okay.
 void R_Assume(int assumption) {
-    struct S2E_CHEF_COMMAND cmd = {};
-    cmd.Command = ABORT_STATE;
+    if (!assumption) {
+        struct S2E_CHEF_COMMAND cmd = {};
+        cmd.Command = ABORT_STATE;
 
-    s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
+        s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
+    }
 }
 
 /// Symbolic execution has to be enabled by setting the envvar R_SYMBEX to "1". If
