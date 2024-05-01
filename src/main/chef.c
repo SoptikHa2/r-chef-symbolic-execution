@@ -12,7 +12,7 @@
 // Executing this when symbolic execution is already running will result in a recoverable error.
 // So it won't do anything, but there will be a nasty message in the log.
 void R_StartSymbolicExecution() {
-    struct S2E_CHEF_COMMAND cmd;
+    struct S2E_CHEF_COMMAND cmd = {};
     cmd.Command = START_CHEF;
 
     s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
@@ -22,7 +22,7 @@ void R_StartSymbolicExecution() {
 /// If the first parameter is FALSE, nothing special will happen.
 /// If the first parameter is TRUE, an error case will be logged and assignment of input variables will be generated to reach this state.
 void R_EndSymbolicExecution(int errorHappened) {
-    struct S2E_CHEF_COMMAND cmd;
+    struct S2E_CHEF_COMMAND cmd = {};
     cmd.Command = END_CHEF;
     cmd.data.end_chef.error_happened = errorHappened;
 
@@ -33,7 +33,7 @@ void R_EndSymbolicExecution(int errorHappened) {
 /// The opcode and pc are for performance purposes - Chef will prioritize states with diverse opcodes. Setting it to zero
 /// does not break anything.
 attribute_hidden void R_UpdateHighLevelInstruction(u_int32_t opcode, u_int32_t pc) {
-    struct S2E_CHEF_COMMAND cmd;
+    struct S2E_CHEF_COMMAND cmd = {};
     cmd.Command = TRACE_UPDATE;
     cmd.data.trace.op_code = opcode;
     cmd.data.trace.pc = pc;
@@ -50,8 +50,17 @@ void R_SendDebugMessage(const char * message) {
 /// This can be used to implement arbitrary conditions for symbolic variables, in line of:
 /// 1. generate symbolic int
 /// 2. R_Assume(symbInt > 14 && symbInt & 0xFF == 0xAB);
+///
+/// Note that this is different from s2e_assume. s2e_assume works on symbolic values THAT ARE NOT EVALUATED YET.
+/// This takes a number and kills a state if it is zero -- it's perfect for discarding states that should be unreachable,
+/// for example.
+/// s2e_assume (or rather klee, which is underneath) would throw an error in that case, since we are passing a constant
+/// into an assumption, which is not okay.
 void R_Assume(int assumption) {
-    s2e_assume(assumption);
+    struct S2E_CHEF_COMMAND cmd = {};
+    cmd.Command = ABORT_STATE;
+
+    s2e_invoke_plugin("Chef", &cmd, sizeof(cmd));
 }
 
 /// Symbolic execution has to be enabled by setting the envvar R_SYMBEX to "1". If
