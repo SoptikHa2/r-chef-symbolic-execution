@@ -21,7 +21,7 @@ SEXP R_SymbolicInt(const char * varName) {
     int32_t symbolicValue;
     R_GenerateSymbolicVar(name, (void *)&symbolicValue, sizeof(symbolicValue));
 
-    s2e_assume(symbolicValue != -2147483648); // Out of bounds for R, outputs NA, which is not desired for this function
+    R_Assume(symbolicValue != -2147483648); // Out of bounds for R, outputs NA, which is not desired for this function
 
     return ScalarInteger(symbolicValue);
 }
@@ -60,7 +60,7 @@ SEXP R_SymbolicVec(const char * varName, int length) {
     SEXPTYPE vecType;
     R_GenerateSymbolicVar(vecTypeName, (void *)&vecType, sizeof(vecType));
     // STRSXP, VECSXP and EXPRSXP are not supported
-    s2e_assume(vecType == LGLSXP || vecType == INTSXP || vecType == REALSXP || vecType == CPLXSXP || vecType == RAWSXP);
+    R_Assume(vecType == LGLSXP || vecType == INTSXP || vecType == REALSXP || vecType == CPLXSXP || vecType == RAWSXP);
 
     SEXP vector = PROTECT(allocVector(vecType, length));
 
@@ -101,7 +101,7 @@ SEXP R_SymbolicString(const char * varName, int length) {
 
     R_GenerateSymbolicVar(name, tmpString, length);
     for(int i = 0; i < length; i++) {
-        s2e_assume(tmpString[i] != 0);
+        R_Assume(tmpString[i] != 0);
     }
 
     PROTECT(charsxp = mkCharLen(tmpString, length));
