@@ -224,7 +224,7 @@ SEXP do_chefSymbolicReal(SEXP call, SEXP op, SEXP args, SEXP env) {
 SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
     checkArity(op, args);
     SEXP variable_name = CAR(args);
-    SEXP string_length = CAR(CDR(args));
+    SEXP length = CAR(CDR(args));
 
     if(!R_SymbexEnabled())
         error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
@@ -232,19 +232,46 @@ SEXP do_chefSymbolicVec(SEXP call, SEXP op, SEXP args, SEXP env) {
     if (!isString(variable_name) || LENGTH(variable_name) != 1)
         error(_("first argument: expected string (variable name)"));
 
-    if (!isReal(string_length) && !isInteger(string_length))
+    if (!isReal(length) && !isInteger(length))
         error(_("second argument: expected int (result length)"));
 
     int bufferLength;
-    if isReal(string_length)
-    bufferLength = lround(Rf_asReal(string_length));
+    if isReal(length)
+    bufferLength = lround(Rf_asReal(length));
     else
-    bufferLength = Rf_asInteger(string_length);
+    bufferLength = Rf_asInteger(length);
 
     if (bufferLength <= 0)
         error(_("second argument: expected at least 1"));
 
     return R_SymbolicVec(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
+}
+
+
+SEXP do_chefSymbolicList(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP variable_name = CAR(args);
+    SEXP length = CAR(CDR(args));
+
+    if(!R_SymbexEnabled())
+        error(_("Symbolic execution is not enabled. Use envvar R_SYMBEX=1."));
+
+    if (!isString(variable_name) || LENGTH(variable_name) != 1)
+        error(_("first argument: expected string (variable name)"));
+
+    if (!isReal(length) && !isInteger(length))
+        error(_("second argument: expected int (result length)"));
+
+    int bufferLength;
+    if isReal(length)
+    bufferLength = lround(Rf_asReal(length));
+    else
+    bufferLength = Rf_asInteger(length);
+
+    if (bufferLength <= 0)
+        error(_("second argument: expected at least 1"));
+
+    return R_SymbolicList(translateCharFP(STRING_ELT(variable_name, 0)), bufferLength);
 }
 
 
@@ -319,15 +346,15 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
         case 2:
             return R_SymbolicReal(variable_name);
         case 3:
-            return R_SymbolicVec(variable_name, bufferLength); // TODO: nested
-            // TODO: list() (just VECSXP with tags)
-            // .Internal(inspect(list()))
+            return R_SymbolicVec(variable_name, bufferLength);
         case 4:
             return R_NilValue;
         case 5:
             return R_SymbolicString(variable_name, bufferLength);
         case 6:
             return R_SymbolicSymsxp(variable_name, bufferLength);
+        case 7:
+            return R_SymbolicList(variable_name, bufferLength);
         default:
             R_Assume(0); // not valid, will kill this state
             return NULL;

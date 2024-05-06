@@ -86,6 +86,37 @@ SEXP R_SymbolicVec(const char * varName, int length) {
     return vector;
 }
 
+SEXP R_SymbolicList(const char * varName, int length) {
+    // Generate a dummy symbolic variable
+    // in order to mark list creation to the tools.
+    // This has to be in sync with the order of variables declared.
+    char listName[180];
+    snprintf(listName, 180, "list_%d__%s", length, varName);
+    listName[179] = 0;
+    int _dummy = 0;
+    R_GenerateSymbolicVar(listName, (void *)&_dummy, sizeof(_dummy));
+
+    SEXP list = PROTECT(allocVector(VECSXP, length));
+
+    // Fill the list with data
+    for (int i = 0; i < length; i++) {
+        SEXP entry = PROTECT(R_SymbolicVec(varName, length));
+        SET_VECTOR_ELT(list, i, entry);
+    }
+
+    // Add symbolic column names
+    SEXP names;
+    PROTECT(names = allocVector(STRSXP, length));
+    for (int i = 0; i < length; i++) {
+        SEXP name = PROTECT(R_SymbolicString(varName, length));
+        SET_STRING_ELT(names, i, STRING_ELT(name, 0));
+    }
+    setAttrib(list, R_NamesSymbol, names);
+
+    UNPROTECT(1+length+1+length);
+    return list;
+}
+
 SEXP R_SymbolicString(const char * varName, int length) {
     char name[180];
     snprintf(name, 180, "str__%s", varName);
