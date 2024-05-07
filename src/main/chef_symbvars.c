@@ -91,7 +91,7 @@ SEXP R_SymbolicList(const char * varName, int length) {
     // in order to mark list creation to the tools.
     // This has to be in sync with the order of variables declared.
     char listName[180];
-    snprintf(listName, 180, "list_%d__%s", length, varName);
+    snprintf(listName, 180, "list__%d__%s", length, varName);
     listName[179] = 0;
     int _dummy = 0;
     R_GenerateSymbolicVar(listName, (void *)&_dummy, sizeof(_dummy));
@@ -115,6 +115,24 @@ SEXP R_SymbolicList(const char * varName, int length) {
 
     UNPROTECT(1+length+1+length);
     return list;
+}
+
+SEXP R_SymbolicMatrix(const char * name, int nrow, int ncol) {
+    SEXP matrix = PROTECT(allocVector(REALSXP, nrow * ncol));
+    double *matrixData = REAL(matrix);
+
+    char matrixName[180];
+    snprintf(matrixName, 180, "matrix__%d__%d__%s", nrow, ncol, name);
+    matrixName[179] = 0;
+    R_GenerateSymbolicVar(matrixName, (void *)matrixData, sizeof(*matrixData) * nrow * ncol);
+
+    SEXP dim = PROTECT(allocVector(INTSXP, 2));
+    INTEGER(dim)[0] = nrow;
+    INTEGER(dim)[1] = ncol;
+    setAttrib(matrix, R_DimSymbol, dim);
+
+    UNPROTECT(2);
+    return matrix;
 }
 
 SEXP R_SymbolicString(const char * varName, int length) {

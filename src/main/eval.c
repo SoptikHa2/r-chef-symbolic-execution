@@ -1067,6 +1067,7 @@ funNameArgCount chef_functionArgAlterWhitelist[] = {
         { "chef_raw", 2 },
         { "chef_vec", 2 },
         { "chef_list", 2 },
+        { "chef_matrix", 3 },
         { "chef_any", 2 },
 };
 /// Check if the function call is in the whitelist of functions that can have their arguments altered.
