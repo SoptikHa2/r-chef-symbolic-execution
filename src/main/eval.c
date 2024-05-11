@@ -1060,22 +1060,22 @@ typedef struct funNameArgCount {
     int argCount;
 } funNameArgCount;
 
-funNameArgCount chef_functionArgAlterWhitelist[] = {
-        { "chef_int", 1 },
-        { "chef_numeric", 1 },
-        { "chef_string", 2 },
-        { "chef_raw", 2 },
-        { "chef_vec", 2 },
-        { "chef_list", 2 },
-        { "chef_matrix", 3 },
-        { "chef_any", 2 },
+funNameArgCount chefFunctionArgAlterWhitelist[] = {
+        { "chef.int", 1 },
+        { "chef.numeric", 1 },
+        { "chef.string", 2 },
+        { "chef.raw", 2 },
+        { "chef.vec", 2 },
+        { "chef.list", 2 },
+        { "chef.matrix", 3 },
+        { "chef.any", 2 },
 };
 /// Check if the function call is in the whitelist of functions that can have their arguments altered.
 /// If so, return true and set argCount to the number of arguments the function takes.
 Rboolean isInChefArgAlterWhitelist(const char * funName, int * argCount) {
-    for (int i = 0; i < sizeof(chef_functionArgAlterWhitelist) / sizeof(*chef_functionArgAlterWhitelist); i++) {
-        if (strcmp(chef_functionArgAlterWhitelist[i].funName, funName) == 0) {
-            *argCount = chef_functionArgAlterWhitelist[i].argCount;
+    for (int i = 0; i < sizeof(chefFunctionArgAlterWhitelist) / sizeof(*chefFunctionArgAlterWhitelist); i++) {
+        if (strcmp(chefFunctionArgAlterWhitelist[i].funName, funName) == 0) {
+            *argCount = chefFunctionArgAlterWhitelist[i].argCount;
             return TRUE;
         }
     }

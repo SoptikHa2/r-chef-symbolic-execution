@@ -656,19 +656,19 @@ FUNTAB R_FunTab[] =
 /* Chef: Symbolic Execution support */
 // When adding new functions that generate variables here, consider adding them to the whitelist in eval.c (chef_functionArgAlterWhitelist array) as well
 
-{"chef_start", do_chefStartSymbex, 0, 100, 0, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_end", do_chefEndSymbex, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_debug", do_chefDebugMessage, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_int", do_chefSymbolicInt, 0, 001, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_numeric", do_chefSymbolicReal, 0, 001, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_raw", do_chefSymbolicBytes, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_string", do_chefSymbolicString, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_vec", do_chefSymbolicVec, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_list", do_chefSymbolicList, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_matrix", do_chefSymbolicMatrix, 0, 001, 3, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_any", do_chefSymbolicAny, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_assume", do_chefAssume, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
-{"chef_assert", do_chefAssert, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.start", do_chefStartSymbex, 0, 100, 0, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.end", do_chefEndSymbex, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.debug", do_chefDebugMessage, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.int", do_chefSymbolicInt, 0, 001, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.numeric", do_chefSymbolicReal, 0, 001, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.raw", do_chefSymbolicBytes, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.string", do_chefSymbolicString, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.vec", do_chefSymbolicVec, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.list", do_chefSymbolicList, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.matrix", do_chefSymbolicMatrix, 0, 001, 3, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.any", do_chefSymbolicAny, 0, 001, 2, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.assume", do_chefAssume, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
+{"chef.assert", do_chefAssert, 0, 101, 1, {PP_FUNCALL, PREC_FN, 0} },
 
 /* .Internal */
 {"eapply",	do_eapply,	0,	10,	4,	{PP_FUNCALL, PREC_FN,	0}},
