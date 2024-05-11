@@ -349,3 +349,19 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
             return NULL;
     }
 }
+
+SEXP do_chefAttachAttr(SEXP call, SEXP op, SEXP args, SEXP env) {
+    checkArity(op, args);
+    SEXP toAttachTo = CAR(args);
+
+    char * symbol[5] = {};
+    R_GenerateSymbolicVar("attrattach__name", (void *)symbol, 5);
+    symbol[4] = 0;
+
+    SEXP attrValue = PROTECT(R_SymbolicVec("attrattach_value", 5));
+    setAttrib(toAttachTo, install((char *)symbol), attrValue);
+
+    UNPROTECT(1);
+
+    return R_NilValue;
+}
