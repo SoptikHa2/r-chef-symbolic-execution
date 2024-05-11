@@ -132,6 +132,7 @@ attribute_hidden SEXP do_chefEndSymbex(SEXP call, SEXP op, SEXP args, SEXP env) 
     if (!IS_SCALAR(error_happened, LGLSXP) || SCALAR_LVAL(error_happened) == NA_LOGICAL)
         error(_("expected one true/false value"));
 
+    R_SendDebugMessage("Ending symbex due to chef_end call");
     R_EndSymbolicExecution(SCALAR_LVAL(error_happened));
 
     return R_NilValue;

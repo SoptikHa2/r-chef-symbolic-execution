@@ -496,7 +496,10 @@ static unsigned char ConsoleBuf[CONSOLE_BUFFER_SIZE];
 static void sigactionSegv(int signum, siginfo_t *ip, void *context)
 {
     // Exit s2e session unsuccessfully
-    if (R_SymbexEnabled) R_EndSymbolicExecution(1);
+    if (R_SymbexEnabled) {
+        R_SendDebugMessage("Ending symbex due to sigaction");
+        R_EndSymbolicExecution(1);
+    }
 
     char *s;
 

@@ -904,8 +904,6 @@ NORET static void errorcall_dflt(SEXP call, const char *format,...)
 
 NORET void errorcall(SEXP call, const char *format,...)
 {
-    if (R_SymbexEnabled()) R_EndSymbolicExecution(TRUE);
-
     va_list(ap);
 
     if (call == R_CurrentExpression)
@@ -917,13 +915,19 @@ NORET void errorcall(SEXP call, const char *format,...)
     va_end(ap);
 
     if (R_ErrorHook != NULL) {
-	char buf[BUFSIZE];
-	void (*hook)(SEXP, char *) = R_ErrorHook;
-	R_ErrorHook = NULL; /* to avoid recursion */
-	va_start(ap, format);
-	Rvsnprintf_mbcs(buf, min(BUFSIZE, R_WarnLength), format, ap);
-	va_end(ap);
-	hook(call, buf);
+        char buf[BUFSIZE];
+        void (*hook)(SEXP, char *) = R_ErrorHook;
+        R_ErrorHook = NULL; /* to avoid recursion */
+        va_start(ap, format);
+        Rvsnprintf_mbcs(buf, min(BUFSIZE, R_WarnLength), format, ap);
+        va_end(ap);
+        hook(call, buf);
+    } else {
+        // No handler is configured
+        if (R_SymbexEnabled()) {
+            R_SendDebugMessage("Ending symbex due to unhandled error");
+            R_EndSymbolicExecution(1);
+        }
     }
 
     va_start(ap, format);
@@ -2726,10 +2730,6 @@ NORET void R_signalErrorConditionEx(SEXP cond, SEXP call, int exitOnly)
 attribute_hidden /* for now */
 NORET void R_signalErrorCondition(SEXP cond, SEXP call)
 {
-    if (R_SymbexEnabled() == TRUE) {
-        R_EndSymbolicExecution(TRUE);
-    }
-
     R_signalErrorConditionEx(cond, call, FALSE);
 }
 
