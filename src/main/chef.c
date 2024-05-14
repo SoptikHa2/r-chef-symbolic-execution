@@ -344,6 +344,10 @@ SEXP do_chefSymbolicAny(SEXP call, SEXP op, SEXP args, SEXP env) {
             return R_SymbolicMatrix(variable_name, length+1, length);
         case 10:
             return R_SymbolicMatrix(variable_name, length, length);
+        case 11:
+            return ScalarLogical(TRUE);
+        case 12:
+            return ScalarLogical(FALSE);
         default:
             R_Assume(0); // not valid, will kill this state
             return NULL;
